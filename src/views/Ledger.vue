@@ -1,6 +1,8 @@
 <template>
 <div>
   Ledger
+  <hr/>
+  <Nav/>
 </div>
 </template>
 

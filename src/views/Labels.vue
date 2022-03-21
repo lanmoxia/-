@@ -1,6 +1,8 @@
 <template>
 <div>
   Labels
+  <hr/>
+  <Nav/>
 </div>
 </template>
 
