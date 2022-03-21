@@ -26,5 +26,9 @@ module.exports = {
         jest: true
       }
     }
-  ]
+  ],
+  // 解决 __WebpackModuleApi":"writable 报错
+  "globals":{
+    "__WebpackModuleApi":"writable"
+  }
 }
