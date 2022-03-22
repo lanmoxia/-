@@ -54,9 +54,9 @@ export default {
     flex-wrap: wrap;
     > li{
       background: #cac9ce;
-      $h: 24px;
-      height: $h;
-      border-radius: $h/2;
+      //$h: 24px;
+      height: 24px;
+      border-radius: 12px;
       padding: 0 16px;
       margin-right: 12px;
       color: #1e1b1c;
@@ -64,7 +64,7 @@ export default {
         *確定裡邊只有一行字用 line-height
         *不能確定是一行字 每個 li flex 上下居中
        */
-      line-height: $h;
+      line-height: 24px;
     }
   }
   > .new{
