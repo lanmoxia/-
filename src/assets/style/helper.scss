@@ -7,3 +7,20 @@ $font-song:  Georgia, "Nimbus Roman No9 L", "Songti SC", "Noto Serif CJK SC", "S
 $font-FS: Baskerville, "Times New Roman", "Liberation Serif", STFangsong, FangSong, FangSong_GB2312, "CWTEX\-F", serif;
 /* 颜色 */
 $color-highLight: #f00;
+
+%clearfix {
+  &::after {
+    content: '';
+    clear: both;
+    display: block;
+  }
+}
+
+$colorShadow: rgba(0, 0, 0, 0.23);
+%outerShadow{
+  box-shadow: 0 0 3px $colorShadow;
+}
+%innerShadow{
+  box-shadow: inset 0 -3px 3px -3px $colorShadow,
+  inset 0 3px 3px -3px $colorShadow;
+}
