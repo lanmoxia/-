@@ -58,7 +58,9 @@ export default class Types extends Vue{
     this.output = '0'
   }
   ok(){
-    console.log('ok');}
+    // 点击 OK 才会触发事件更合适
+    this.$emit('update:value', this.output)
+  }
 }
 </script>
 

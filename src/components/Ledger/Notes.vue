@@ -12,10 +12,15 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {Component} from 'vue-property-decorator';
+import {Component, Watch} from 'vue-property-decorator';
 @Component
 export default class Notes extends Vue{
   value= '';
+  // 可以在 input 时监听 value 由于  v-model="value" 这里 watch 更合适
+  @Watch('value')
+  onValueChanged(value:string){
+    this.$emit('update:value', value)
+  }
 }
 </script>
 

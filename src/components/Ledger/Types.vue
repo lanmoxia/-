@@ -13,7 +13,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import {Component, Prop} from 'vue-property-decorator';
+import {Component, Prop, Watch} from 'vue-property-decorator';
 @Component
 export default class Types extends Vue{
   type: '-' | '+' = '-';
@@ -28,6 +28,12 @@ export default class Types extends Vue{
       throw new Error('type is unknown')
     }
     this.type = type;
+    // 这里两次 type 都是同一个的话还是会触发事件 watch 更合适
+    // this.$emit('update:value', value)
+  }
+  @Watch('type')
+  onTypeChanged(value:string){
+    this.$emit('update:value', value)
   }
 }
 </script>

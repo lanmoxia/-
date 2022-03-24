@@ -1,10 +1,10 @@
 <template>
   <div>
     <Layout class-prefix="layout" >
-      <NumberPad/>
-      <Types/>
-      <Notes/>
-      <Tags :data-source.sync="tags"/>
+      <NumberPad @update:value="onUpdateAmount"/>
+      <Types @update:value="onUpdateType"/>
+      <Notes @update:value="onUpdateNotes"/>
+      <Tags :data-source.sync="tags" @update:value="onUpdateTags"/>
     </Layout>
   </div>
 </template>
@@ -19,6 +19,10 @@ import {Component} from 'vue-property-decorator';
 @Component({components: {Tags, Notes, Types, NumberPad}})
 export default class Ledger extends Vue{
   tags = ['衣', '食', '住', '行', '股票'];
+  onUpdateTags(value: string){}
+  onUpdateNotes(value:string){}
+  onUpdateType(value:string){}
+  onUpdateAmount(value:string){}
 }
 </script>
 
