@@ -33,31 +33,26 @@ export default class Types extends Vue{
 </script>
 
 <style lang="scss" scoped>
-.types{
-  background: #c6c6ca;
+.types {
+  background: #c4c4c4;
   display: flex;
   text-align: center;
-  color: #1e1b1c;
   font-size: 24px;
   > li {
     width: 50%;
-    /*
-      *這裡如果使用 line-height 垂直居中會因為 border 有問
-      *使用 flex 居中比較好
-    */
+    height: 64px;
+    display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
-    /*這裡的 & 表示同級當前的 li 不是子代*/
-    &.selected::after{
-      /*这里使用伪元素+绝对定位添加选中态 使用 border 会影响高度*/
+    &.selected::after {
       content: '';
       position: absolute;
       bottom: 0;
       left: 0;
       width: 100%;
       height: 4px;
-      background: #848283;
+      background: #333;
     }
   }
 }

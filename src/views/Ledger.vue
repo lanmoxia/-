@@ -2,9 +2,9 @@
 <div>
   <Layout class-prefix="layout" >
     <NumberPad/>
-    <Types :xxx="333"/>
+    <Types/>
     <Notes/>
-    <Tags/>
+    <Tags :data-source="tags"/>
   </Layout>
 </div>
 </template>
@@ -16,19 +16,18 @@ import Notes from '@/components/Ledger/Notes.vue';
 import Tags from '@/components/Ledger/Tags.vue';
 export default {
   name: 'Ledger',
-  components: {Tags, Notes, Types, NumberPad}
+  components: {Tags, Notes, Types, NumberPad},
+  data(){
+    return{
+      tags:['衣','食','住','行','股票']
+    }
+  }
 };
 </script>
+
 <style lang="scss">
-.layout-wrapper{
-  //border: 10px solid red;
-}
-.layout-content{
-  //border: 8px solid blue;
+.layout-content {
   display: flex;
   flex-direction: column-reverse;
 }
-</style>
-<style lang="scss" scoped>
-@import '~@/assets/style/helper.scss';
 </style>
