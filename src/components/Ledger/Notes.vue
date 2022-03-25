@@ -5,6 +5,7 @@
       <span class="name">备注</span>
       <input type="text"
              v-model="value"
+             @input="onValueChanged"
              placeholder="请在这里输入內容">
     </label>
   </div>
@@ -12,14 +13,12 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {Component, Watch} from 'vue-property-decorator';
+import {Component, Prop} from 'vue-property-decorator';
 @Component
 export default class Notes extends Vue{
-  value= '';
-  // 可以在 input 时监听 value 由于  v-model="value" 这里 watch 更合适
-  @Watch('value')
-  onValueChanged(value:string){
-    this.$emit('update:value', value)
+  @Prop() readonly value!: string
+  onValueChanged(){
+    this.$emit('update:value',this.value)
   }
 }
 </script>

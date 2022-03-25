@@ -22,10 +22,11 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import {Component, Watch} from 'vue-property-decorator';
+import {Component, Prop, Watch} from 'vue-property-decorator';
 @Component
 export default class Types extends Vue{
-  output = '0';
+  @Prop() readonly value!: number
+  output = this.value.toString() // output 初始值是外边传入的
   inputContent(event: MouseEvent){// event 类型是鼠标事件
     // 强制类型：! 或者 as HTMLButtonElement
     const button = (event.target as HTMLButtonElement);
