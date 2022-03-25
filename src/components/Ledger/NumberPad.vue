@@ -22,7 +22,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import {Component, Prop, Watch} from 'vue-property-decorator';
+import {Component, Prop} from 'vue-property-decorator';
 @Component
 export default class Types extends Vue{
   @Prop() readonly value!: number
@@ -60,11 +60,10 @@ export default class Types extends Vue{
   ok(){
     // 点击 OK 才会触发事件更合适
     this.$emit('update:value', this.output)
+    // 多触发一个 submit 事件
+    this.$emit('submit', this.output)
+    this.output = '0' // 触发执行后重置为 '0'
   }
-  // @Watch('output')
-  // onValueChange(value:string){
-  //   this.$emit('update:value', this.output)
-  // }
 }
 </script>
 

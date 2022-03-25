@@ -18,7 +18,7 @@ import {Component, Prop} from 'vue-property-decorator';
 export default class Notes extends Vue{
   @Prop() readonly value!: string
   onValueChanged(){
-    this.$emit('update:value',this.value)
+    this.$emit('update:value', this.value)
   }
 }
 </script>
