@@ -33,7 +33,20 @@ export default class Ledger extends Vue{
   // 把 record 放到 recordList 中 | 在 localStorage 获取默认值 | localStorage 中只能存字符串
   recordList: Record[] = JSON.parse(window.localStorage.getItem('recordList') || '[]')
   record: Record = {tags:[], notes:'', type:'-', amount: 0}
-
+     // 数据库更新/数据迁移：
+  // 比如用户使用的初级版本 后来的版本才有创建时间 不可能让用户自己删除数据 这就需要升级数据库
+    // 升级数据库版本：
+  // 比如用老用户是第0版 现在在第3版 可以从0-1 1-2 2-3 这样升级最好 即使到了10版 我们只需要从9-10即可
+//   const version = window.localStorage.getItem('version')
+//   if(version === 0.0.1){
+//     recordList.$forEach(record => {
+//       record.createdAt = new Date(year:2022, month:0, data:1)
+// })
+// window.localStorage.setItem('recordList', JSON.stringify(recordList))
+//   }else if(version === 0.0.2){
+//   // 迁移版本
+// }
+//   window.localStorage.setItem('recordList', JSON.stringify(recordList))}
   onUpdateTags(value:string[]){this.record.tags = value}
   saveRecord(){
     // 深拷贝
