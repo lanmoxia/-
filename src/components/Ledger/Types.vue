@@ -13,27 +13,16 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import {Component, Prop, Watch} from 'vue-property-decorator';
+import {Component, Prop} from 'vue-property-decorator';
 @Component
 export default class Types extends Vue{
-  type: '-' | '+' = '-';
-  // 'vue-property-decorator' 中的装饰器 Prop
-  @Prop(Number) xxx: number | undefined;
-  // Prop 告诉 Vue xxx 不是 data 是 prop
-  // Number 告诉 Vue xxx 是 Number (Vue 不支持大写 Number)
-  // xxx 是属性名
-  // number| undefined 是 xxx 的类型
+  // 方便解决后期更改需求麻烦 比如默认支出改为收入 这里使用 prop 比较合适
+  @Prop() readonly type!: string
   selectType(type:string){
     if(type !== '-' && type !== '+'){
       throw new Error('type is unknown')
     }
-    this.type = type;
-    // 这里两次 type 都是同一个的话还是会触发事件 watch 更合适
-    // this.$emit('update:value', value)
-  }
-  @Watch('type')
-  onTypeChanged(value:string){
-    this.$emit('update:value', value)
+    this.$emit('update:value', type)
   }
 }
 </script>
