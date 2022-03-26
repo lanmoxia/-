@@ -16,6 +16,8 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-non-null-assertion": "warn",
+    '@typescript-eslint/no-var-requires': 0,
+    "no-unused-vars":0
   },
   overrides: [
     {
