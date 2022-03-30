@@ -19,13 +19,14 @@ import Vue from 'vue';
 import {Component, Watch} from 'vue-property-decorator';
 import {recordListModel} from '@/models/recordListModel';
 import {RecordItem} from '@/custom';
-// 这里鼠标放上去发现 fetch 的是个空的 返回值类型是 RecordItem[] 所以等号左边的类型声明就是多余了
+import {tagListModel} from '@/models/tagListModel';
+// 从 models 获取数据
 const recordList = recordListModel.fetch()
-
-
+// 暂时没用到 下边使用这个变量 ledger 和 labels 会不同步显示
+//const tagList = tagListModel.fetch()
 @Component({components: {Tags, Notes, Types, NumberPad}})
 export default class Ledger extends Vue{
-  tags = ['衣', '食', '住', '行', '股票'];
+  tags = tagListModel.fetch(); // 这里外部使用变量 tagList 创建标签后两个不同步显示 需要刷新
   // 获取数据
   recordList: RecordItem[] = recordList
   record: RecordItem = {tags:[], notes:'', type:'-', amount: 0}
@@ -41,7 +42,7 @@ export default class Ledger extends Vue{
   @Watch('recordList')
   onRecordListChange() {
     // 存到 localStorage 中
-    recordListModel.seve(this.recordList)
+    recordListModel.save(this.recordList)
   }
 }
 </script>

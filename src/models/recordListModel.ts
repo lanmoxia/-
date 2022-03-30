@@ -12,7 +12,7 @@ const recordListModel = {
         //return x
          return JSON.parse(window.localStorage.getItem(localStorageKeyName) || '[]') as RecordItem[];
     },
-    seve(data:RecordItem[]){
+    save(data:RecordItem[]){
         // 改为ts后 (data:Record[]) Ledger 中的 Record 是局部的 这里用不了
         // 我们需要全局的 xxx.d.ts
         return window.localStorage.setItem(localStorageKeyName, JSON.stringify(data));

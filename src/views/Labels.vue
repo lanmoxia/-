@@ -2,34 +2,34 @@
 <div>
   <Layout>
     <ol class="tags">
-    <li>
-      <span>衣</span>
-      <Icons name="right"/>
-    </li>
-    <li>
-      <span>食</span>
-      <Icons name="right"/>
-    </li>
-    <li>
-      <span>住</span>
-      <Icons name="right"/>
-    </li>
-    <li>
-      <span>行</span>
+    <li v-for="tag in tags" :key="tag">
+      <span>{{tag}}</span>
       <Icons name="right"/>
     </li>
     </ol>
     <div class="createTag-wrapper">
-      <button class="createTag">新建标签</button>
+      <button class="createTag" @click="createTag">新建标签</button>
     </div>
   </Layout>
 </div>
 </template>
 
 <script lang="ts">
-export default {
-  name: 'Labels'
-};
+import Vue from 'vue';
+import {Component} from 'vue-property-decorator';
+import {tagListModel} from '@/models/tagListModel';
+tagListModel.fetch()
+@Component
+export default class Labels extends Vue{
+  // 这里不用管数据层 非常简约
+  tags = tagListModel.data
+  createTag(){
+    const name = window.prompt('请输入标签名')
+    if(name){
+        tagListModel.create(name)
+      }
+    }
+}
 </script>
 
 <style lang="scss" scoped>
