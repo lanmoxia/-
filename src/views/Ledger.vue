@@ -6,7 +6,6 @@
       <Types :value.sync="record.type"/>
       <Notes :value.sync="record.notes"/>
       <Tags :data-source.sync="tags" @update:value="onUpdateTags"/>
-      {{recordList}}
     </Layout>
   </div>
 </template>
@@ -18,18 +17,12 @@ import Notes from '@/components/Ledger/Notes.vue';
 import Tags from '@/components/Ledger/Tags.vue';
 import Vue from 'vue';
 import {Component, Watch} from 'vue-property-decorator';
-import {model} from '@/model';
-
+import {recordListModel} from '@/models/recordListModel';
+import {RecordItem} from '@/custom';
 // 这里鼠标放上去发现 fetch 的是个空的 返回值类型是 RecordItem[] 所以等号左边的类型声明就是多余了
-const recordList = model.fetch()
+const recordList = recordListModel.fetch()
 
-type RecordItem = {
-  tags: string[]
-  notes: string
-  type: string
-  amount: number // 数据类型：object | string
-  createdAt?: Date// 类 / 构造函数 比类型小
-}
+
 @Component({components: {Tags, Notes, Types, NumberPad}})
 export default class Ledger extends Vue{
   tags = ['衣', '食', '住', '行', '股票'];
@@ -39,7 +32,7 @@ export default class Ledger extends Vue{
   onUpdateTags(value:string[]){this.record.tags = value}
   saveRecord(){
     // 深拷贝
-    const record2: RecordItem = model.clone(this.record)
+    const record2: RecordItem = recordListModel.clone(this.record)
     // 生成日期
     record2.createdAt = new Date()
     // 不使用深拷贝 | 这里是引用的地址 每次数据更新了都会覆盖之前的
@@ -48,7 +41,7 @@ export default class Ledger extends Vue{
   @Watch('recordList')
   onRecordListChange() {
     // 存到 localStorage 中
-    model.seve(this.recordList)
+    recordListModel.seve(this.recordList)
   }
 }
 </script>
