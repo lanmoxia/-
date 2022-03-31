@@ -1,7 +1,6 @@
 <template>
   <div>
-    {{value}}
-    <label class="notes">
+    <label class="formItem">
       <span class="name">{{filterName}}</span>
       <input type="text"
              v-model="value"
@@ -26,9 +25,8 @@ export default class FormItem extends Vue{
 </script>
 
 <style lang="scss" scoped>
-.notes {
+.formItem {
   font-size: 14px;
-  background: #f5f5f5;
   padding-left: 16px;
   display: flex;
   align-items: center;

@@ -8,11 +8,13 @@
       />
       <Types :value.sync="record.type"
       />
-      <FormItem
-          filter-name="备注"
-          placeholder="请在这里输入"
-          @update:calue="onUpdateNotes"
-      />
+      <div class="notes">
+        <FormItem
+            filter-name="备注"
+            placeholder="请在这里输入"
+            @update:calue="onUpdateNotes"
+        />
+      </div>
       <Tags
           :data-source.sync="tags"
           @update:value="onUpdateTags"
@@ -63,5 +65,8 @@ export default class Ledger extends Vue{
 .layout-content {
   display: flex;
   flex-direction: column-reverse;
+}
+.notes{
+  padding: 12px 0;
 }
 </style>
