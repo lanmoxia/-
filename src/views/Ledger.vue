@@ -4,7 +4,7 @@
       <!-- 定义 submit 事件，点击 OK 就保存 -->
       <NumberPad :value.sync="record.amount" @submit="saveRecord"/>
       <Types :value.sync="record.type"/>
-      <Notes :value.sync="record.notes"/>
+      <Notes @update:calue="onUpdateNotes"/>
       <Tags :data-source.sync="tags" @update:value="onUpdateTags"/>
     </Layout>
   </div>
@@ -31,6 +31,7 @@ export default class Ledger extends Vue{
   recordList: RecordItem[] = recordList
   record: RecordItem = {tags:[], notes:'', type:'-', amount: 0}
   onUpdateTags(value:string[]){this.record.tags = value}
+  onUpdateNotes(value: string) {this.record.notes = value}
   saveRecord(){
     // 深拷贝
     const record2: RecordItem = recordListModel.clone(this.record)
