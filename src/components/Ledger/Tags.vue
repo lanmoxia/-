@@ -4,9 +4,10 @@
       <button @click="create">新增标签</button>
     </div>
     <ul class="current">
-      <li v-for="tag in dataSource" :key="tag"
+      <li v-for="tag in dataSource" :key="tag.id"
           :class="{selected: selectedTags.indexOf(tag)>=0}"
-          @click="toggle(tag)">{{tag}}
+          @click="toggle(tag)">
+        {{tag.name}}
       </li>
     </ul>
   </div>
@@ -18,6 +19,7 @@ import {Component, Prop} from 'vue-property-decorator';
 @Component
 export default class Tags extends Vue{
   @Prop() readonly dataSource: string[] | undefined;
+
   selectedTags: string[] = [];
   toggle(tag:string){
     const index = this.selectedTags.indexOf(tag);
@@ -45,6 +47,7 @@ export default class Tags extends Vue{
   flex-grow: 1;
   display: flex;
   flex-direction: column-reverse;
+  background-color: white;
   > .current {
     display: flex;
     flex-wrap: wrap;
