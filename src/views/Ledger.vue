@@ -12,13 +12,14 @@
         <FormItem
             filter-name="备注"
             placeholder="请在这里输入"
-            @update:calue="onUpdateNotes"
+            @update:value="onUpdateNotes"
         />
       </div>
       <Tags
           :data-source.sync="tags"
           @update:value="onUpdateTags"
       />
+      {{record}}
     </Layout>
   </div>
 </template>
