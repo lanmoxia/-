@@ -15,7 +15,7 @@
 import Vue from 'vue';
 import {Component, Prop} from 'vue-property-decorator';
 @Component
-export default class Notes extends Vue{
+export default class FormItem extends Vue{
   value = '';
   @Prop({required: true}) filterName!: string // {required: true}:必须传一个 name
   @Prop() placeholder?: string

@@ -8,7 +8,7 @@
       />
       <Types :value.sync="record.type"
       />
-      <Notes
+      <FormItem
           filter-name="备注"
           placeholder="请在这里输入"
           @update:calue="onUpdateNotes"
@@ -24,7 +24,7 @@
 <script lang="ts">
 import NumberPad from '@/components/Ledger/NumberPad.vue';
 import Types from '@/components/Ledger/Types.vue';
-import Notes from '@/components/Ledger/Notes.vue';
+import FormItem from '@/components/Ledger/FormItem.vue';
 import Tags from '@/components/Ledger/Tags.vue';
 import Vue from 'vue';
 import {Component, Watch} from 'vue-property-decorator';
@@ -35,7 +35,7 @@ import {tagListModel} from '@/models/tagListModel';
 const recordList = recordListModel.fetch()
 // 暂时没用到 下边使用这个变量 ledger 和 labels 会不同步显示
 //const tagList = tagListModel.fetch()
-@Component({components: {Tags, Notes, Types, NumberPad}})
+@Component({components: {Tags, FormItem, Types, NumberPad}})
 export default class Ledger extends Vue{
   tags = tagListModel.fetch(); // 这里外部使用变量 tagList 创建标签后两个不同步显示 需要刷新
   // 获取数据
