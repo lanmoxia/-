@@ -2,8 +2,8 @@
 <div>
   <Layout>
     <ol class="tags">
-    <li v-for="tag in tags" :key="tag">
-      <span>{{tag}}</span>
+    <li v-for="tag in tags" :key="tag.id">
+      <span>{{tag.name}}</span>
       <Icons name="right"/>
     </li>
     </ol>
@@ -22,7 +22,7 @@ tagListModel.fetch()
 @Component
 export default class Labels extends Vue{
   // 这里不用管数据层 非常简约
-  tags = tagListModel.data
+  tags = tagListModel.data // 这里的 tags: Tag[] 是一个对象数组了 template 中遍历 tag 绑定 id 显示 name
   createTag(){
     const name = window.prompt('请输入标签名')
     if(name){

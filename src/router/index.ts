@@ -4,6 +4,7 @@ import Ledger from '@/views/Ledger.vue';
 import Statistics from '@/views/Statistics.vue';
 import NotFount from '@/views/NotFount.vue';
 import Labels from '@/views/Labels.vue';
+import EditLabel from '@/views/EditLabel.vue';
 Vue.use(VueRouter)
 
 const routes: Array<RouteConfig> = [
@@ -18,6 +19,10 @@ const routes: Array<RouteConfig> = [
   {
     path: '/labels',
     component: Labels
+  },
+  {
+    path: '/labels/edit',
+    component: EditLabel
   },
   {
     path: '/statistics',
