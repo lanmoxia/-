@@ -10,7 +10,9 @@
     </router-link>
     </div>
     <div class="createTag-wrapper">
-      <button class="createTag" @click="createTag">新建标签</button>
+      <Button class="createTag" @click="createTag">新建标签</Button>
+<!--      这里可以使用 .native 大 Button 组件就不用传递 @click 了-->
+<!--      <Button class="createTag" @click.native="createTag">新建标签</Button>-->
     </div>
   </Layout>
 </div>
