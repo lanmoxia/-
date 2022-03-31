@@ -3,8 +3,8 @@
     <label class="formItem">
       <span class="name">{{filterName}}</span>
       <input type="text"
-             v-model="value"
-             @input="onValueChanged"
+             :value="value"
+             @input="onValueChanged($event.target.value)"
              :placeholder="placeholder">
     </label>
   </div>
@@ -15,7 +15,8 @@ import Vue from 'vue';
 import {Component, Prop} from 'vue-property-decorator';
 @Component
 export default class FormItem extends Vue{
-  value = '';
+  @Prop({default:''}) readonly value!:string
+
   @Prop({required: true}) filterName!: string // {required: true}:必须传一个 name
   @Prop() placeholder?: string
   onValueChanged(){
