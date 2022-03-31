@@ -2,10 +2,21 @@
   <div>
     <Layout class-prefix="layout" >
       <!-- 定义 submit 事件，点击 OK 就保存 -->
-      <NumberPad :value.sync="record.amount" @submit="saveRecord"/>
-      <Types :value.sync="record.type"/>
-      <Notes @update:calue="onUpdateNotes"/>
-      <Tags :data-source.sync="tags" @update:value="onUpdateTags"/>
+      <NumberPad
+          :value.sync="record.amount"
+          @submit="saveRecord"
+      />
+      <Types :value.sync="record.type"
+      />
+      <Notes
+          filter-name="备注"
+          placeholder="请在这里输入"
+          @update:calue="onUpdateNotes"
+      />
+      <Tags
+          :data-source.sync="tags"
+          @update:value="onUpdateTags"
+      />
     </Layout>
   </div>
 </template>

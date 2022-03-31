@@ -4,7 +4,7 @@
     <Icons name="left"/>
     <span>编辑标签</span>
   </div>
-  <Notes/>
+  <Notes filter-name="标签名" placeholder="请输入标签名" />
 </Layout>
 </template>
 

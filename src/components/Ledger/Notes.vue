@@ -2,21 +2,23 @@
   <div>
     {{value}}
     <label class="notes">
-      <span class="name">备注</span>
+      <span class="name">{{filterName}}</span>
       <input type="text"
              v-model="value"
              @input="onValueChanged"
-             placeholder="请在这里输入內容">
+             :placeholder="placeholder">
     </label>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import {Component} from 'vue-property-decorator';
+import {Component, Prop} from 'vue-property-decorator';
 @Component
 export default class Notes extends Vue{
   value = '';
+  @Prop({required: true}) filterName!: string // {required: true}:必须传一个 name
+  @Prop() placeholder?: string
   onValueChanged(){
     this.$emit('update:value', this.value)
   }
