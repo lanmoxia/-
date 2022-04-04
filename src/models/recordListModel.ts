@@ -1,4 +1,4 @@
-import {RecordItem} from '@/custom';
+import RecordItem from '@/custom';
 const localStorageKeyName = 'recordList';
 const recordListModel = {
     clone(data:RecordItem | RecordItem[]){ // 可以是一个 也可以是一个数组
@@ -15,7 +15,7 @@ const recordListModel = {
     save(data:RecordItem[]){
         // 改为ts后 (data:Record[]) Ledger 中的 Record 是局部的 这里用不了
         // 我们需要全局的 xxx.d.ts
-        return window.localStorage.setItem(localStorageKeyName, JSON.stringify(data));
+        window.localStorage.setItem(localStorageKeyName, JSON.stringify(data));
     }
 };
-export {recordListModel}
+export default recordListModel

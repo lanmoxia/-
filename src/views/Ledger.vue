@@ -1,13 +1,12 @@
 <template>
   <div>
     <Layout class-prefix="layout" >
+      {{record}}
       <!-- 定义 submit 事件，点击 OK 就保存 -->
       <NumberPad
           :value.sync="record.amount"
-          @submit="saveRecord"
-      />
-      <Types :value.sync="record.type"
-      />
+          @submit="saveRecord"/>
+      <Types :value.sync="record.type"/>
       <div class="notes">
         <FormItem
             filter-name="备注"
@@ -19,7 +18,6 @@
           :data-source.sync="tags"
           @update:value="onUpdateTags"
       />
-      {{record}}
     </Layout>
   </div>
 </template>
@@ -31,17 +29,16 @@ import FormItem from '@/components/Ledger/FormItem.vue';
 import Tags from '@/components/Ledger/Tags.vue';
 import Vue from 'vue';
 import {Component, Watch} from 'vue-property-decorator';
-import {recordListModel} from '@/models/recordListModel';
-import {RecordItem} from '@/custom';
-import {tagListModel} from '@/models/tagListModel';
+import recordListModel from '@/models/recordListModel';
+import RecordItem from '@/custom';
+import tagListModel from '@/models/tagListModel';
 // 从 models 获取数据
 const recordList = recordListModel.fetch()
-// 暂时没用到 下边使用这个变量 ledger 和 labels 会不同步显示
-//const tagList = tagListModel.fetch()
+
 @Component({components: {Tags, FormItem, Types, NumberPad}})
 export default class Ledger extends Vue{
-  tags = tagListModel.fetch(); // 这里外部使用变量 tagList 创建标签后两个不同步显示 需要刷新
   // 获取数据
+  tags = tagListModel.fetch()
   recordList: RecordItem[] = recordList
   record: RecordItem = {tags:[], notes:'', type:'-', amount: 0}
   onUpdateTags(value:string[]){this.record.tags = value}

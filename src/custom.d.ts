@@ -10,4 +10,4 @@ type RecordItem = {
     amount: number // 数据类型：object | string
     createdAt?: Date// 类 / 构造函数 比类型小
 }
-export {RecordItem}
+export default RecordItem
