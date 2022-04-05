@@ -21,14 +21,14 @@ import Vue from 'vue';
 import {Component, Watch} from 'vue-property-decorator';
 import recordListModel from '@/models/recordListModel';
 import RecordItem from '@/custom';
-import tagListModel from '@/models/tagListModel';
+
 // 从 models 获取数据
 const recordList = recordListModel.fetch()
-const tagList = tagListModel.fetch()
+
 @Component({components: {Tags, FormItem, Types, NumberPad}})
 export default class Ledger extends Vue{
   // 获取数据
-  tags = tagList;
+  tags = window.tagList
   recordList: RecordItem[] = recordList
   record: RecordItem = {tags:[], notes:'', type:'-', amount: 0}
   onUpdateTags(value:string[]){this.record.tags = value}

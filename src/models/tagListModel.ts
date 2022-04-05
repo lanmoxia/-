@@ -5,20 +5,6 @@ import createId from '@/lib/careteId';
 
 const localStorageKeyName = 'tagList';
 
-type Tag = {
-    id: string
-    name: string
-}
-// 这里定义好类型
-// 等号左边是输入类型 右边是输出类型
-type tagListModel = {
-    data: Tag[] // 这里的 data 是一个 Tag 对象的数组
-    create: (name: string) =>  'success' | 'duplicated' // 只能是这两个字符串 可以防止手贱写错会提示(联合类型)
-    fetch: () => Tag[] // // 这里的 data 是一个 Tag 对象的数组
-    update: (id: string , name: string) => 'success' | 'not fount' | 'duplicated'
-    remove: (id:string) => boolean
-    save: () => void
-}
 // 定义好 tagListModel 类型 后边包括外部使用到就不用断言
 const tagListModel: tagListModel = {
     data: [],

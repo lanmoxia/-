@@ -22,12 +22,11 @@
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 import tagListModel from '@/models/tagListModel';
-tagListModel.fetch()
 
 @Component
 export default class Labels extends Vue{
   // 这里不用管数据层 非常简约
-  tags = tagListModel.data // 这里的 tags: Tag[] 是一个对象数组了 template 中遍历 tag 绑定 id 显示 name
+  tags = window.tagList
   createTag(){
     const name = window.prompt('请输入标签名')
     if(name){
