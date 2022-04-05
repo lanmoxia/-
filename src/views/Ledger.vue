@@ -34,17 +34,12 @@ export default class Ledger extends Vue{
   onUpdateTags(value:string[]){this.record.tags = value}
   onUpdateNotes(value: string) {this.record.notes = value}
   saveRecord(){
-    // 深拷贝
-    const record2: RecordItem = recordListModel.clone(this.record)
-    // 生成日期
-    record2.createdAt = new Date()
-    // 不使用深拷贝 | 这里是引用的地址 每次数据更新了都会覆盖之前的
-    this.recordList.push(record2)
+    recordListModel.create(this.record)
   }
   @Watch('recordList')
   onRecordListChange() {
     // 存到 localStorage 中
-    recordListModel.save(this.recordList)
+    recordListModel.save()
   }
 }
 </script>

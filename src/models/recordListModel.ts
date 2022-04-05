@@ -1,10 +1,15 @@
 import RecordItem from '@/custom';
+import clone from '@/lib/clone';
 const localStorageKeyName = 'recordList';
 const recordListModel = {
     data: [] as RecordItem[],
-    clone(data:RecordItem | RecordItem[]){ // 可以是一个 也可以是一个数组
+    create(record: RecordItem){
         // 深拷贝
-        return JSON.parse(JSON.stringify(data))
+        const record2: RecordItem = clone(record)
+        // 生成日期
+        record2.createdAt = new Date()
+        // 不使用深拷贝 | 这里是引用的地址 每次数据更新了都会覆盖之前的
+        this.data.push(record2)
     },
     fetch(){
         this.data = JSON.parse(window.localStorage.getItem(localStorageKeyName) || '[]') as RecordItem[];
