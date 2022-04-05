@@ -19,8 +19,8 @@ export default class FormItem extends Vue{
 
   @Prop({required: true}) filterName!: string // {required: true}:必须传一个 name
   @Prop() placeholder?: string
-  onValueChanged(){
-    this.$emit('update:value', this.value)
+  onValueChanged(value: string){
+    this.$emit('update:value', value)
   }
 }
 </script>
