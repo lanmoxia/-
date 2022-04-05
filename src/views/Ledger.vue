@@ -18,29 +18,20 @@ import NumberPad from '@/components/Ledger/NumberPad.vue';
 import Types from '@/components/Ledger/Types.vue';
 import FormItem from '@/components/Ledger/FormItem.vue';
 import Tags from '@/components/Ledger/Tags.vue';
-import {Component, Watch} from 'vue-property-decorator';
-import recordListModel from '@/models/recordListModel';
+import {Component} from 'vue-property-decorator';
 import RecordItem from '@/custom'
-
-// 从 models 获取数据
-const recordList = recordListModel.fetch()
 
 @Component({components: {Tags, FormItem, Types, NumberPad}})
 export default class Ledger extends Vue{
   // 获取数据
   tags = window.tagList
-  recordList: RecordItem[] = recordList
-  record: RecordItem = {tags:[], notes:'', type:'-', amount: 0}
+  recordList = window.recordList
+  record: RecordItem = {
+    tags:[], notes:'', type:'-', amount: 0
+  }
   onUpdateTags(value:string[]){this.record.tags = value}
   onUpdateNotes(value: string) {this.record.notes = value}
-  saveRecord(){
-    recordListModel.create(this.record)
-  }
-  @Watch('recordList')
-  onRecordListChange() {
-    // 存到 localStorage 中
-    recordListModel.save()
-  }
+  saveRecord(){window.createRecord(this.record)}
 }
 </script>
 
