@@ -1,5 +1,6 @@
 <template>
-  <svg class="icon">
+<!--  触发 icon 的 goBack-->
+  <svg class="icon" @click="$emit('click', $event)">
     <use :xlink:href= "'#'+ name"/>
   </svg>
 </template>

@@ -1,23 +1,26 @@
 <template>
-<Layout>
-  <div class="navBar">
-    <Icons class="leftIcon" name="left"/>
-    <span class="title">编辑标签</span>
-    <span class="rightIcon"></span>
-  </div>
-  <div class="form-wrapper">
-    <FormItem :value="tag.name" filter-name="标签名" placeholder="请输入标签名" />
-  </div>
-  <div class="button-wrapper">
-    <Button>删除标签</Button>
-  </div>
-</Layout>
+  <Layout>
+    <div class="navBar">
+<!--      这里点击没有触发 icon 的 goBack 需要在 Icons.vue 中触发 icon-->
+      <Icons class="leftIcon" name="left" @click="goBack"/>
+      <span class="title">编辑标签</span>
+      <span class="rightIcon"></span>
+    </div>
+    <div class="form-wrapper">
+      <FormItem :value="tag.name"
+                @update:value="update"
+                filter-name="标签名" placeholder="请输入标签名" />
+    </div>
+    <div class="button-wrapper">
+      <Button @click="remove">删除标签</Button>
+    </div>
+  </Layout>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
-import {tagListModel} from '@/models/tagListModel';
+import tagListModel from '@/models/tagListModel';
 import FormItem from '@/components/Ledger/FormItem.vue';
 import Button from '@/components/Button.vue';
 @Component({
@@ -33,11 +36,25 @@ export default class EditLabel extends Vue {
     const tag = tags.filter(t => t.id === id)[0]
     if(tag){
       this.tag = tag
+      console.log(this.tag);
     }else{
       // replace 替代 push 更好 用户在404页面回退 push 会退不回去
       //this.$router.push('/404')
       this.$router.replace('/404')
     }
+  }
+  update(name: string){
+    if(this.tag) {
+      tagListModel.update(this.tag.id, name)
+      console.log(name);
+    }
+  }
+  remove(){
+    if(this.tag)
+    tagListModel.remove(this.tag.id)
+  }
+  goBack(){
+    this.$router.back()
   }
 }
 </script>
