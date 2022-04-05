@@ -19,19 +19,20 @@ import Types from '@/components/Ledger/Types.vue';
 import FormItem from '@/components/Ledger/FormItem.vue';
 import Tags from '@/components/Ledger/Tags.vue';
 import {Component} from 'vue-property-decorator';
-import RecordItem from '@/custom'
+
+import store from '@/store/index2';
 
 @Component({components: {Tags, FormItem, Types, NumberPad}})
 export default class Ledger extends Vue{
   // 获取数据
-  tags = window.tagList
-  recordList = window.recordList
+  tags = store.tagList
+  recordList = store.recordList
   record: RecordItem = {
     tags:[], notes:'', type:'-', amount: 0
   }
   onUpdateTags(value:string[]){this.record.tags = value}
   onUpdateNotes(value: string) {this.record.notes = value}
-  saveRecord(){window.createRecord(this.record)}
+  saveRecord(){store.createRecord(this.record)}
 }
 </script>
 
