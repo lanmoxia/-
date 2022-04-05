@@ -23,6 +23,7 @@ import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 import tagListModel from '@/models/tagListModel';
 tagListModel.fetch()
+
 @Component
 export default class Labels extends Vue{
   // 这里不用管数据层 非常简约
