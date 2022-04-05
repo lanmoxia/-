@@ -13,14 +13,14 @@
 </template>
 
 <script lang="ts">
+import Vue from 'vue';
 import NumberPad from '@/components/Ledger/NumberPad.vue';
 import Types from '@/components/Ledger/Types.vue';
 import FormItem from '@/components/Ledger/FormItem.vue';
 import Tags from '@/components/Ledger/Tags.vue';
-import Vue from 'vue';
 import {Component, Watch} from 'vue-property-decorator';
 import recordListModel from '@/models/recordListModel';
-import RecordItem from '@/custom';
+import RecordItem from '@/custom'
 
 // 从 models 获取数据
 const recordList = recordListModel.fetch()

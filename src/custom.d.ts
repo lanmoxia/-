@@ -25,8 +25,13 @@ type tagListModel = {
 }
 
 // 消除 main.js 中 tagList 类型问题
-interface Window{
+interface Window {
     tagList: Tag[]
+    findTag: (id: string) => Tag
     createTag: (name: string) => void
-}
+    removeTag: (id: string) => boolean
+    //updateTag: (id: string, name: string) => 'success' | 'not fount' | 'duplicated'
+    // 这里跟上边 update 返回类型一样 可以这样简写
+    updateTag: TaglistModel['update']
 
+}
