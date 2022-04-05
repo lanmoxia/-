@@ -30,8 +30,13 @@ module.exports = {
       }
     }
   ],
-  // 解决 __WebpackModuleApi":"writable 报错
+  // 解决全局属性报错
   "globals":{
-    "__WebpackModuleApi":"writable"
+    // 解决 __WebpackModuleApi":"writable 报错
+    "__WebpackModuleApi":"writable",
+    // 解决 custom 中全局属性 ESLint: 'Xxx' is not defined.(no-undef) 报错
+    "RecordItem": true,
+    "Tag": true,
+    "tagListModel": true
   }
 }
