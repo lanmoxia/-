@@ -27,5 +27,6 @@ type tagListModel = {
 // 消除 main.js 中 tagList 类型问题
 interface Window{
     tagList: Tag[]
+    createTag: (name: string) => void
 }
 
