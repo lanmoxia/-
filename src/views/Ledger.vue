@@ -34,7 +34,6 @@ import store from '@/store/index2';
 }
 )
 export default class Ledger extends Vue{
-  store = store // 2. 这里告诉 Vue 监听 store
   recordList = store.recordList
   record: RecordItem = {
     tags:[], notes:'', type:'-', amount: 0
