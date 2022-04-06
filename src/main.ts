@@ -11,7 +11,8 @@ Vue.config.productionTip = false
 Vue.component('Nav', Nav)
 Vue.component('Layout',Layout)
 Vue.component('Icons', Icons)
-
+// 第一步 $store 绑定到 Vue 原型上
+Vue.prototype.$store = store
 new Vue({
   router,
   store,

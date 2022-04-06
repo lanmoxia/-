@@ -23,20 +23,12 @@ type tagListModel = {
     remove: (id:string) => boolean
     save: () => void
 }
-
-// 消除 main.js 中 tagList 类型问题
-// interface Window {
-//     store: {
-//         // tagType
-//         tagList: Tag[]
-//         findTag: (id: string) => Tag
-//         createTag: (name: string) => void
-//         removeTag: (id: string) => boolean
-//         //updateTag: (id: string, name: string) => 'success' | 'not fount' | 'duplicated'
-//         // 这里跟上边 update 返回类型一样 可以这样简写
-//         updateTag: TaglistModel['update']
-//         // recordType
-//         recordList: RecordItem[]
-//         createRecord: (record) => void
-//     }
-// }
+// 第三步 定义 store 类型 Vue 文档代码
+// 现在代码有 Bug | 由于这里 import Vue 导致此文件内所有类型都要引入才能使用
+import Vue from 'vue'
+declare module 'vue/types/vue'{
+    interface Vue{
+        $store: any // 这里演示用 就给个 any 类型
+        //$store:{... 所有接口 ...}
+    }
+}
