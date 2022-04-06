@@ -7,7 +7,7 @@
       <div class="notes">
         <FormItem filter-name="备注" placeholder="请在这里输入" @update:value="onUpdateNotes"/>
       </div>
-      <Tags :data-source.sync="tags" @update:value="onUpdateTags"/>
+      <Tags/>
     </Layout>
   </div>
 </template>
@@ -25,12 +25,10 @@ import store from '@/store/index2';
 @Component({components: {Tags, FormItem, Types, NumberPad}})
 export default class Ledger extends Vue{
   // 获取数据
-  tags = store.tagList
   recordList = store.recordList
   record: RecordItem = {
     tags:[], notes:'', type:'-', amount: 0
   }
-  onUpdateTags(value:string[]){this.record.tags = value}
   onUpdateNotes(value: string) {this.record.notes = value}
   saveRecord(){store.createRecord(this.record)}
 }
