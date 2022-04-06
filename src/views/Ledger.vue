@@ -8,7 +8,6 @@
         <FormItem filter-name="备注" placeholder="请在这里输入" @update:value="onUpdateNotes"/>
       </div>
       <Tags/>
-      {{count}} <button @click="add">+1</button>
     </Layout>
   </div>
 </template>
@@ -27,14 +26,12 @@ import store from '@/store/index2';
   components: {Tags, FormItem, Types, NumberPad},
   // 1. 把 data 改为 computed
   computed: {
-    count(){
-      return store.count
+    recordList(){
+      return store.recordList
     }
   }
-}
-)
+})
 export default class Ledger extends Vue{
-  recordList = store.recordList
   record: RecordItem = {
     tags:[], notes:'', type:'-', amount: 0
   }
