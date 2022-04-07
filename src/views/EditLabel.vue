@@ -7,7 +7,7 @@
       <span class="rightIcon"/>
     </div>
     <div class="form-wrapper">
-      <FormItem :value="tag.name"
+      <FormItem :value="currentTag.name"
                 @update:value="update"
                 filter-name="标签名" placeholder="请输入标签名" />
     </div>
@@ -25,7 +25,7 @@ import Button from '@/components/Button.vue';
 
 @Component({components: {Button, FormItem}})
 export default class EditLabel extends Vue {
-  get tag(){
+  get currentTag(){
     return this.$store.state.currentTag
   }
 
@@ -36,18 +36,18 @@ export default class EditLabel extends Vue {
     // 通过 setCurrentTag 发现 index.ts 中是在 tagList 找 ID
     // 这里刷新相当于没有从切他页面切过来，其他组件没有刷新获取 tagList，所以这里刷新需要先重新获取
     this.$store.commit('setCurrentTag', id)
-    if(!this.tag){
+    if(!this.currentTag){
       this.$router.replace('/404')
     }
   }
   update(name: string){
-    if(this.tag) {
-      this.$store.commit('updateTag',{id:this.tag.id, name: name})
+    if(this.currentTag) {
+      this.$store.commit('updateTag',{id:this.currentTag.id, name: name})
     }
   }
   remove() {
-    if (this.tag)
-    this.$store.commit('removeTag',this.tag.id)
+    if (this.currentTag)
+    this.$store.commit('removeTag',this.currentTag.id)
   }
   goBack(){
     this.$router.back()
