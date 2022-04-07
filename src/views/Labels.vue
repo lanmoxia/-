@@ -21,20 +21,25 @@
 <script lang="ts">
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
-
-@Component
-export default class Labels extends Vue{
-  // 这里不用管数据层 非常简约
-  //TODO
-  tags = []
-  createTag(){
-    const name = window.prompt('请输入标签名')
-    if(name){
-      if(name){
-        //TODO
-        //store.createTag(name)
-      }
+import Button from '@/components/Button.vue';
+@Component({
+  components: {Button},
+  computed:{
+    tags(){
+      return this.$store.state.tagList
     }
+  }
+})
+export default class Labels extends Vue{
+  // 这里跟 Tags 重复 fetchTags
+  // 原则上切标签就要重复 fetch 比较好
+  beforeCreated(){
+    this.$store.commit('fetchTags')
+  }
+  createTag(){
+    const name = window.prompt('请输入标签名');
+    if (!name) {return window.alert('标签名不能为空')}
+    this.$store.commit('createTag',(name))
   }
 }
 </script>
