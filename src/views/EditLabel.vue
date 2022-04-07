@@ -25,17 +25,16 @@ import Button from '@/components/Button.vue';
 
 @Component({components: {Button, FormItem}})
 export default class EditLabel extends Vue {
+  // ② 第二步通过 set 函数来设置
   get currentTag(){
     return this.$store.state.currentTag
   }
 
   created(){
     const id = this.$route.params.id
-    // 刷新自己 fetch
     this.$store.commit('fetchTags')
-    // 通过 setCurrentTag 发现 index.ts 中是在 tagList 找 ID
-    // 这里刷新相当于没有从切他页面切过来，其他组件没有刷新获取 tagList，所以这里刷新需要先重新获取
-    this.$store.commit('setCurrentTag', id)
+    // ① 这里想要获取当前：currentTag，发现 commit 没有返回值 没办法获取
+    this.$store.commit('setCurrentTag', id) // ③ 第三步 在这里读取 currentTag
     if(!this.currentTag){
       this.$router.replace('/404')
     }

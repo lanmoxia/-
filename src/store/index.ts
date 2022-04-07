@@ -8,13 +8,13 @@ Vue.use(Vuex) // 把 store 绑定 Vue.prototype.$store = store
 type RootState ={
   recordList: RecordItem[],
   tagList: Tag[],
-  currentTag?: Tag,
+  currentTag?: Tag,  // 这里写好类型
 }
 const store =  new Vuex.Store({
   state: {
     recordList: [],
     tagList: [],
-    currentTag: undefined,
+    currentTag: undefined, // ① 第一步先定义当前 currentTag 默认 undefined
   } as RootState,
   mutations: {
     setCurrentTag(state, id: string){
