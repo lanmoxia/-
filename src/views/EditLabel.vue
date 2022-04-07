@@ -31,10 +31,6 @@ export default class EditLabel extends Vue {
 
   created(){
     const id = this.$route.params.id
-    // fetchTags：获取 tagList
-    this.$store.commit('fetchTags')
-    // setCurrentTag：通过 index.ts 中发现是在 tagList 中找
-    // 进入编辑页刷新，相当于第一次直接进入到编辑页，其他组件并没有刷新 所以这里还要获取 fetch 一下
     this.$store.commit('setCurrentTag', id)
     if(!this.tag){
       this.$router.replace('/404')
