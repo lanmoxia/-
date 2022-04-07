@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import clone from '@/lib/clone';
 import createId from '@/lib/careteId';
+import router from '@/router';
 
 Vue.use(Vuex) // 把 store 绑定 Vue.prototype.$store = store
 type RootState ={
@@ -18,6 +19,39 @@ const store =  new Vuex.Store({
   mutations: {
     setCurrentTag(state, id: string){
       state.currentTag =  state.tagList.filter(t => t.id === id)[0]
+    },
+    updateTag(state, payload:{id: string, name: string}){// 这里值接受除了 state 的第二个参数 只能用对象 对象名一般是 payload
+      const {id,name} = payload
+      const idList = state.tagList.map(item => item.id)
+      if(idList.indexOf(id) >=0){
+        const names = state.tagList.map(item => item.name)
+        if(names.indexOf(name) >= 0){
+         window.alert('标签名重复了')
+        }else{
+          const tag = state.tagList.filter(item => item.id === id)[0];
+          tag.name = name;
+          //id 和 name 最好都更改
+          // 3 更改为 333 , id:3 name:333 再添加 3  id:3 就会重复
+          //tag.id = tag.name = name // 简写
+          store.commit('saveTags')
+        }
+      }
+    },
+    removeTag(state,id: string){
+      let index = -1;
+      for(let i=0; i<state.tagList.length;i++){
+        if(state.tagList[i].id === id){
+          index = i;
+          break;
+        }
+      }
+      if(index >= 0){
+        state.tagList.splice(index, 1);
+        store.commit('saveTags');
+        router.back()
+      }else{
+        window.alert('删除失败')
+      }
     },
     fetchRecords(state){
       state.recordList = JSON.parse(window.localStorage.getItem('recordList') || '[]') as RecordItem[];
