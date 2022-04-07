@@ -19,9 +19,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 import Button from '@/components/Button.vue';
+import {mixins} from 'vue-class-component';
+import TagHelper from '@/mixins/TagHelper';
 @Component({
   components: {Button},
   computed:{
@@ -30,16 +31,12 @@ import Button from '@/components/Button.vue';
     }
   }
 })
-export default class Labels extends Vue{
+// 第二步 使用继承 mixins
+export default class Labels extends mixins(TagHelper){
   // 这里跟 Tags 重复 fetchTags
   // 原则上切标签就要重复 fetch 比较好
-  beforeCreated(){
+  created(){ // beforeCreated 会导致刷新获取不到标签 必须在 ledger 页面切过来才可以 使用 created 可以解决
     this.$store.commit('fetchTags')
-  }
-  createTag(){
-    const name = window.prompt('请输入标签名');
-    if (!name) {return window.alert('标签名不能为空')}
-    this.$store.commit('createTag',(name))
   }
 }
 </script>
