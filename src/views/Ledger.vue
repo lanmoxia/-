@@ -19,14 +19,13 @@ import Types from '@/components/Ledger/Types.vue';
 import FormItem from '@/components/Ledger/FormItem.vue';
 import Tags from '@/components/Ledger/Tags.vue';
 import {Component} from 'vue-property-decorator';
-import store from '@/store/index2';
 
 @Component({
   components: {Tags, FormItem, Types, NumberPad},
   // 1. 把 data 改为 computed
   computed: {
     recordList(){
-      return store.recordList
+      return this.$store.state.recordList
     }
   }
 })
@@ -34,8 +33,13 @@ export default class Ledger extends Vue{
   record: RecordItem = {
     tags:[], notes:'', type:'-', amount: 0
   }
+  created(){
+    this.$store.commit('fetchRecords')
+  }
   onUpdateNotes(value: string) {this.record.notes = value}
-  saveRecord(){store.createRecord(this.record)}
+  saveRecord(){
+    this.$store.commit('createRecord',this.record)
+  }
 }
 </script>
 

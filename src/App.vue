@@ -4,18 +4,6 @@
   </div>
 </template>
 
-<script lang="js">
-  // 可以把监控 store 放到全局 store 变化就会通知 Vue
-  import store from "@/store/index2"
-  export default {
-    data(){
-      return{
-        store: store
-      }
-    }
-  }
-</script>
-
 <style lang="scss">
 @import "~@/assets/style/reset.scss";
 @import "~@/assets/style/helper.scss";
