@@ -23,16 +23,12 @@ import {Component} from 'vue-property-decorator';
 import Button from '@/components/Button.vue';
 import {mixins} from 'vue-class-component';
 import TagHelper from '@/mixins/TagHelper';
-@Component({
-  components: {Button},
-  computed:{
-    tags(){
-      return this.$store.state.tagList
-    }
-  }
-})
+@Component({components: {Button}})
 // 第二步 使用继承 mixins
 export default class Labels extends mixins(TagHelper){
+  get tags(){
+    return this.$store.state.tagList
+  }
   // 这里跟 Tags 重复 fetchTags
   // 原则上切标签就要重复 fetch 比较好
   created(){ // beforeCreated 会导致刷新获取不到标签 必须在 ledger 页面切过来才可以 使用 created 可以解决
