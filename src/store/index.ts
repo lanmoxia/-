@@ -4,12 +4,21 @@ import clone from '@/lib/clone';
 import createId from '@/lib/careteId';
 
 Vue.use(Vuex) // 把 store 绑定 Vue.prototype.$store = store
+type RootState ={
+  recordList: RecordItem[],
+  tagList: Tag[],
+  currentTag?: Tag,
+}
 const store =  new Vuex.Store({
   state: {
-    recordList: [] as RecordItem[],
-    tagList: [] as Tag[],
-  },
+    recordList: [],
+    tagList: [],
+    currentTag: undefined,
+  } as RootState,
   mutations: {
+    setCurrentTag(state, id: string){
+      state.currentTag =  state.tagList.filter(t => t.id === id)[0]
+    },
     fetchRecords(state){
       state.recordList = JSON.parse(window.localStorage.getItem('recordList') || '[]') as RecordItem[];
     },
@@ -27,7 +36,7 @@ const store =  new Vuex.Store({
       window.localStorage.setItem('recordList', JSON.stringify(state.recordList))
     },
     fetchTags(state){
-      return state.tagList = JSON.parse(window.localStorage.getItem('tagList') || '[]');
+      state.tagList = JSON.parse(window.localStorage.getItem('tagList') || '[]');
     },
     createTag(state, name: string){
       // 创建一个 tag 如果重复
@@ -43,7 +52,7 @@ const store =  new Vuex.Store({
     },
     saveTags(state){
       return window.localStorage.setItem('tagList', JSON.stringify(state.tagList));
-    },
+    }
   }
 })
 export default store

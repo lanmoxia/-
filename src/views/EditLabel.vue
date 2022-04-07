@@ -1,7 +1,7 @@
 <template>
   <Layout>
     <div class="navBar">
-<!--      这里点击没有触发 icon 的 goBack 需要在 Icons.vue 中触发 icon-->
+      <!--      这里点击没有触发 icon 的 goBack 需要在 Icons.vue 中触发 icon-->
       <Icons class="leftIcon" name="left" @click="goBack"/>
       <span class="title">编辑标签</span>
       <span class="rightIcon"/>
@@ -23,14 +23,15 @@ import {Component} from 'vue-property-decorator';
 import FormItem from '@/components/Ledger/FormItem.vue';
 import Button from '@/components/Button.vue';
 
-@Component({
-  components: {Button, FormItem}
-})
+@Component({components: {Button, FormItem}})
 export default class EditLabel extends Vue {
-  tag?: {id: string, name: string} = undefined
+  get tag(){
+    return this.$store.state.currentTag
+  }
+
   created(){
-    //TODO
-    //this.tag = store.findTag(this.$route.params.id)
+    const id = this.$route.params.id
+    this.$store.commit('setCurrentTag', id)
     if(!this.tag){
       this.$router.replace('/404')
     }
