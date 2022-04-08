@@ -15,14 +15,13 @@
 <script lang="ts">
 import Vue from 'vue';
 import NumberPad from '@/components/Ledger/NumberPad.vue';
-import Types from '@/components/Ledger/Types.vue';
 import FormItem from '@/components/Ledger/FormItem.vue';
 import Tags from '@/components/Ledger/Tags.vue';
 import {Component} from 'vue-property-decorator';
 import recordTypeList from '@/constant/recordTypeList';
 import Tabs from '@/components/Tabs.vue';
 
-@Component({components: {Tabs, Tags, FormItem, Types, NumberPad}})
+@Component({components: {Tabs, Tags, FormItem, NumberPad}})
 export default class Ledger extends Vue{
   get recordList(){
     return this.$store.state.recordList
