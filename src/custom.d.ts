@@ -1,7 +1,7 @@
 // 这里是一个默认的全局的类型声明 TS 看到 d.ts 就认为是声明
 
 type RecordItem = {
-    tags: string[]
+    tags: Tag[]
     notes: string
     type: string
     amount: number // 数据类型：object | string

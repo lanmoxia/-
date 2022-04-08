@@ -5,7 +5,7 @@
       <ol>
         <!-- group 一组 === array-->
         <!-- 数组没有 key 只能用 index 代替 key-->
-        <li v-for="(group,index) in result" :key="index">
+        <li v-for="(group,index) in groupedList" :key="index">
           <h3 class="title">{{beautify(group.title)}}</h3>
           <ol>
             <li v-for="item in group.items" :key="item.id"
@@ -45,17 +45,28 @@ export default class Statistics extends Vue{
   get recordList(){
     return (this.$store.state as RootState).recordList
   }
-  get result() {
+  get groupedList() {
     const {recordList} = this
-    type HashTableValue = { title: string, items: RecordItem[] }
-    // 如何生成一个空的对象的类型
-    //const hashTable: {key: string, items: RecordItem[]}[];// 对象遍历不一定按照顺序 所以它必须是一个数组
-    //console.log(recordList.map(i => i.createdAt));
+    // 首先判断 为空直接返回空数组
+    if(recordList.length === 0){return []}
     // 使用 sort 来排序 需要给它两个值 一个表达式 `> = <` 三种可能
     // 由于 sort 改变原数组 这里我们只能clone clone的返回值可以通过 recordList 来推断出来 sort 每一项 TS 也能推出来
     const newList = clone(recordList).sort((a, b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf())
-    //console.log(recordList.map(i => i.createdAt));
-    return [];
+    // 不为空就把第一项放到 result 由于排序是大到小 这里第 0 项就是当前的日期
+    // result 结构：[{title: 日期}， {items: 第 0 项}]
+    const result = [{title: dayjs(newList[0].createdAt).format('YYYY-MM-DD'), items: [newList[0]]}]
+    for(let i=1; i<newList.length; i++){
+      const current = newList[i]
+      const last = result[result.length -1]
+      // 如果是同一天
+      if(dayjs(last.title).isSame(dayjs(current.createdAt), 'day')){
+        last.items.push(current) // 把当前项放进去
+      }else{ // 如果不相等 重开来一个桶把当前项放入
+        result.push({title: dayjs(current.createdAt).format('YYYY-MM-DD'), items: [current]})
+      }
+    }
+    console.log(result); // 查看排序后的分组
+    return result;
   }
   beforeCreate(){// 这里要使用 before 不然 hashTable 会出现空数组的问题
     this.$store.commit('fetchRecords')
