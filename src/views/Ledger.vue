@@ -3,7 +3,7 @@
     <Layout class-prefix="layout" >
       <!-- 定义 submit 事件，点击 OK 就保存 -->
       <NumberPad :value.sync="record.amount" @submit="saveRecord"/>
-      <Types :value.sync="record.type"/>
+      <Tabs :data-source="recordTypeList" :value.sync="record.type"/>
       <div class="notes">
         <FormItem filter-name="备注" placeholder="请在这里输入" @update:value="onUpdateNotes"/>
       </div>
@@ -19,12 +19,15 @@ import Types from '@/components/Ledger/Types.vue';
 import FormItem from '@/components/Ledger/FormItem.vue';
 import Tags from '@/components/Ledger/Tags.vue';
 import {Component} from 'vue-property-decorator';
+import recordTypeList from '@/constant/recordTypeList';
+import Tabs from '@/components/Tabs.vue';
 
-@Component({components: {Tags, FormItem, Types, NumberPad}})
+@Component({components: {Tabs, Tags, FormItem, Types, NumberPad}})
 export default class Ledger extends Vue{
   get recordList(){
     return this.$store.state.recordList
   }
+  recordTypeList = recordTypeList
   record: RecordItem = {
     tags:[], notes:'', type:'-', amount: 0
   }
