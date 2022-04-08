@@ -37,6 +37,8 @@ module.exports = {
     // 解决 custom 中全局属性 ESLint: 'Xxx' is not defined.(no-undef) 报错
     "RecordItem": true,
     "Tag": true,
-    "tagListModel": true
+    "tagListModel": true,
+    "RootState": true,
+    "RecordList": true
   }
 }

@@ -5,7 +5,7 @@ type RecordItem = {
     notes: string
     type: string
     amount: number // 数据类型：object | string
-    createdAt?: Date// 类 / 构造函数 比类型小
+    createdAt?: string// JSON 不支持 Date 所以这里类型要变更下
 }
 
 type Tag = {
@@ -23,5 +23,9 @@ type tagListModel = {
     remove: (id:string) => boolean
     save: () => void
 }
-
+type RootState ={
+    recordList: RecordItem[],
+    tagList: Tag[],
+    currentTag?: Tag,  // 这里写好类型
+}
 

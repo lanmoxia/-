@@ -5,11 +5,7 @@ import createId from '@/lib/careteId';
 import router from '@/router';
 
 Vue.use(Vuex) // 把 store 绑定 Vue.prototype.$store = store
-type RootState ={
-  recordList: RecordItem[],
-  tagList: Tag[],
-  currentTag?: Tag,  // 这里写好类型
-}
+
 const store =  new Vuex.Store({
   state: {
     recordList: [],
@@ -60,7 +56,7 @@ const store =  new Vuex.Store({
       // 深拷贝
       const record2: RecordItem = clone(record)
       // 生成日期
-      record2.createdAt = new Date()
+      record2.createdAt = new Date().toISOString()
       // 不使用深拷贝 | 这里是引用的地址 每次数据更新了都会覆盖之前的
       //this.recordList && this.recordList.push(record2)
       state.recordList.push(record2)
