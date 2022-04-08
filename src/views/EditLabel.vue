@@ -33,7 +33,7 @@ export default class EditLabel extends Vue {
   created(){
     const id = this.$route.params.id
     this.$store.commit('fetchTags')
-    // ① 这里想要获取当前：currentTag，发现 commit 没有返回值 没办法获取
+    // 这里想要获取当前：currentTag，发现 commit 没有返回值 没办法获取
     this.$store.commit('setCurrentTag', id) // ③ 第三步 在这里读取 currentTag
     if(!this.currentTag){
       this.$router.replace('/404')
