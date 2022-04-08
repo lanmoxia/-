@@ -25,7 +25,7 @@ import Vue from 'vue'
 import {Component, Prop} from 'vue-property-decorator';
 @Component
 export default class Types extends Vue{
-  @Prop() readonly value!: number
+  @Prop(Number) readonly value!: number // 这里不写 Number 类型 会导致统计页面变成字符串相加
   output = this.value.toString() // output 初始值是外边传入的
   inputContent(event: MouseEvent){// event 类型是鼠标事件
     // 强制类型：! 或者 as HTMLButtonElement
@@ -59,9 +59,11 @@ export default class Types extends Vue{
   }
   ok(){
     // 点击 OK 才会触发事件更合适
-    this.$emit('update:value', this.output)
+    const output = parseFloat(this.output)
+    //this.$emit('update:value', parseFloat(this.output)) // 这里的 this.output 是字符串要转为数字
+    this.$emit('update:value', output) // 这里的 this.output 是字符串要转为数字
     // 多触发一个 submit 事件
-    this.$emit('submit', this.output)
+    this.$emit('submit', output)
     this.output = '0' // 触发执行后重置为 '0'
   }
 }

@@ -5,7 +5,7 @@
         <!-- group 一组 === array-->
         <!-- 数组没有 key 只能用 index 代替 key-->
         <li v-for="(group,index) in groupedList" :key="index">
-          <h3 class="title">{{beautify(group.title)}}</h3>
+          <h3 class="title">{{beautify(group.title)}} <span>￥{{group.total}}</span></h3>
           <ol>
             <li v-for="item in group.items" :key="item.id"
                 class="record"
@@ -50,9 +50,10 @@ export default class Statistics extends Vue{
     const newList = clone(recordList)
         .filter(r => r.type === this.type)
         .sort((a, b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf())
+    type Result = {title: string, total?: number, items: RecordItem[]}[]
     // 不为空就把第一项放到 result 由于排序是大到小 这里第 0 项就是当前的日期
     // result 结构：[{title: 日期}， {items: 第 0 项}]
-    const result = [{title: dayjs(newList[0].createdAt).format('YYYY-MM-DD'), items: [newList[0]]}]
+    const result: Result = [{title: dayjs(newList[0].createdAt).format('YYYY-MM-DD'), items: [newList[0]]}]
     for(let i=1; i<newList.length; i++){
       const current = newList[i]
       const last = result[result.length -1]
@@ -63,7 +64,11 @@ export default class Statistics extends Vue{
         result.push({title: dayjs(current.createdAt).format('YYYY-MM-DD'), items: [current]})
       }
     }
-    console.log(result); // 查看排序后的分组
+    // 统计
+    result.map(group =>{ // 这里 map 和 forEtch 都可以（区别前者有返回值 后者没有返回值）
+      group.total = group.items.reduce((sum,item) => sum + item.amount, 0)
+    })
+    //console.log(result); // 查看排序后的分组
     return result;
   }
   beforeCreate(){// 这里要使用 before 不然 hashTable 会出现空数组的问题
