@@ -1,6 +1,7 @@
 <template>
   <ul class="tabs" :class="{[classPrefix+ '-tabs']: classPrefix}">
     <li v-for="item in dataSource" :key="item.value" class="tabs-item"
+        :style="{height: height}"
         :class="liClass(item)" @click="select(item)">{{item.text}}
     </li>
   </ul>
@@ -15,7 +16,7 @@ export default class Types extends Vue {
   @Prop({required: true, type: Array}) dataSource!:DataSourceItem
   @Prop(String) readonly value!: string // 叹号表示不会是空
   @Prop(String) classPrefix?: string // 问好表示有可能是空 Prop 内的类型最好写好
-
+  @Prop({type: String, default: '64px'}) height!: string // 控制 height
   liClass(item: DataSourceItem){
     return{
       [this.classPrefix + '-tabs-item']:this.classPrefix, // 这里要用 this
@@ -36,7 +37,7 @@ export default class Types extends Vue {
   font-size: 24px;
   &-item {
     width: 50%;
-    height: 64px;
+    /*height: 64px;*/
     display: flex;
     justify-content: center;
     align-items: center;
