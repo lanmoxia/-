@@ -39,6 +39,5 @@ module.exports = {
     "Tag": true,
     "tagListModel": true,
     "RootState": true,
-    "RecordList": true
   }
 }
