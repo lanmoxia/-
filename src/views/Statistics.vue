@@ -1,7 +1,6 @@
 <template>
   <Layout>
     <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
-    <Tabs class-prefix="interval" :data-source="intervalList" :value.sync="interval"/>
       <ol>
         <!-- group 一组 === array-->
         <!-- 数组没有 key 只能用 index 代替 key-->
@@ -26,7 +25,6 @@
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 import Tabs from '@/components/Tabs.vue';
-import intervalList from '@/constant/intervalList';
 import recordTypeList from '@/constant/recordTypeList';
 import dayjs from 'dayjs'
 import clone from '@/lib/clone';
@@ -36,8 +34,6 @@ import clone from '@/lib/clone';
 })
 export default class Statistics extends Vue{
   type = '-';
-  interval = 'day';
-  intervalList = intervalList;
   recordTypeList = recordTypeList;
   tagString(tags: Tag[]) {
     return tags.length === 0 ? '无' : tags.join(',');
@@ -51,7 +47,9 @@ export default class Statistics extends Vue{
     if(recordList.length === 0){return []}
     // 使用 sort 来排序 需要给它两个值 一个表达式 `> = <` 三种可能
     // 由于 sort 改变原数组 这里我们只能clone clone的返回值可以通过 recordList 来推断出来 sort 每一项 TS 也能推出来
-    const newList = clone(recordList).sort((a, b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf())
+    const newList = clone(recordList)
+        .filter(r => r.type === this.type)
+        .sort((a, b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf())
     // 不为空就把第一项放到 result 由于排序是大到小 这里第 0 项就是当前的日期
     // result 结构：[{title: 日期}， {items: 第 0 项}]
     const result = [{title: dayjs(newList[0].createdAt).format('YYYY-MM-DD'), items: [newList[0]]}]
@@ -93,9 +91,9 @@ export default class Statistics extends Vue{
 /* deep 语法 两个 deep 可以合并 */
   ::v-deep {
     .type-tabs-item {
-      background: white;
+      background: #C4C4C4;
       &.selected {
-        background: #C4C4C4;
+        background: white;
         &::after {
           display: none;
         }
