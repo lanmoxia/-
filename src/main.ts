@@ -18,3 +18,9 @@ new Vue({
   render: h => h(App)
 }).$mount('#app')
 
+ // 移动端进入自动滚动显示底部导航
+window.onload = function(){
+  setTimeout(function(){
+    window.scrollTo(0,1000)
+  },0)
+}
