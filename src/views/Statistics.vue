@@ -1,22 +1,25 @@
 <template>
   <Layout>
     <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
-      <ol>
-        <!-- group 一组 === array-->
-        <!-- 数组没有 key 只能用 index 代替 key-->
-        <li v-for="(group,index) in groupedList" :key="index">
-          <h3 class="title">{{beautify(group.title)}} <span>￥{{group.total}}</span></h3>
-          <ol>
-            <li v-for="item in group.items" :key="item.id"
-                class="record"
-            >
-              <span>{{tagString(item.tags)}}</span>
-              <span class="notes">{{item.notes}}</span>
-              <span>￥{{item.amount}} </span>
-            </li>
-          </ol>
-        </li>
-      </ol>
+    <ol v-if="groupedList.length > 0">
+      <!-- group 一组 === array-->
+      <!-- 数组没有 key 只能用 index 代替 key-->
+      <li v-for="(group,index) in groupedList" :key="index">
+        <h3 class="title">{{beautify(group.title)}} <span>￥{{group.total}}</span></h3>
+        <ol>
+          <li v-for="item in group.items" :key="item.id"
+              class="record"
+          >
+            <span>{{tagString(item.tags)}}</span>
+            <span class="notes">{{item.notes}}</span>
+            <span>￥{{item.amount}} </span>
+          </li>
+        </ol>
+      </li>
+    </ol>
+    <div v-else class="noResult">
+      这里空空如也，快来记一笔吧 ~
+    </div>
   </Layout>
 </template>
 
@@ -36,20 +39,20 @@ export default class Statistics extends Vue{
   type = '-';
   recordTypeList = recordTypeList;
   tagString(tags: Tag[]) {
-    return tags.length === 0 ? '无' : tags.join(',');
+    return tags.length === 0 ? '无' : tags.map(t => t.name).join('，');
   }
   get recordList(){
     return (this.$store.state as RootState).recordList
   }
   get groupedList() {
     const {recordList} = this
-    // 首先判断 为空直接返回空数组
-    if(recordList.length === 0){return []}
     // 使用 sort 来排序 需要给它两个值 一个表达式 `> = <` 三种可能
     // 由于 sort 改变原数组 这里我们只能clone clone的返回值可以通过 recordList 来推断出来 sort 每一项 TS 也能推出来
     const newList = clone(recordList)
         .filter(r => r.type === this.type)
         .sort((a, b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf())
+    // sort 会改变数组长度 长度为 0 就有第 [0] 项了 所以这里要判断 newList 长度
+    if(newList.length === 0){return []}
     type Result = {title: string, total?: number, items: RecordItem[]}[]
     // 不为空就把第一项放到 result 由于排序是大到小 这里第 0 项就是当前的日期
     // result 结构：[{title: 日期}， {items: 第 0 项}]
@@ -93,38 +96,43 @@ export default class Statistics extends Vue{
 </script>
 
 <style lang="scss" scoped>
+.noResult{
+  padding: 16px;
+  text-align: center;
+  color: #999;
+}
 /* deep 语法 两个 deep 可以合并 */
-  ::v-deep {
-    .type-tabs-item {
-      background: #C4C4C4;
-      &.selected {
-        background: white;
-        &::after {
-          display: none;
-        }
+::v-deep {
+  .type-tabs-item {
+    background: #C4C4C4;
+    &.selected {
+      background: white;
+      &::after {
+        display: none;
       }
     }
-    .interval-tabs-item {
-      height: 48px;
-    }
   }
-  %item {
-    padding: 8px 16px;
-    line-height: 24px;
-    display: flex;
-    justify-content: space-between;
-    align-content: center;
+  .interval-tabs-item {
+    height: 48px;
   }
-  .title {
-    @extend %item;
-  }
-  .record {
-    background: white;
-    @extend %item;
-  }
-  .notes {
-    margin-right: auto;
-    margin-left: 16px;
-    color: #999;
-  }
+}
+%item {
+  padding: 8px 16px;
+  line-height: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+}
+.title {
+  @extend %item;
+}
+.record {
+  background: white;
+  @extend %item;
+}
+.notes {
+  margin-right: auto;
+  margin-left: 16px;
+  color: #999;
+}
 </style>

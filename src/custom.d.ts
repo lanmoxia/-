@@ -24,6 +24,7 @@ type tagListModel = {
     save: () => void
 }
 type RootState ={
+    // createRecordError: Error | null,
     createTagError: Error | null,
     recordList: RecordItem[],
     tagList: Tag[],

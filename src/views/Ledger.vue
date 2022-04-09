@@ -5,9 +5,10 @@
       <NumberPad :value.sync="record.amount" @submit="saveRecord"/>
       <Tabs :data-source="recordTypeList" :value.sync="record.type"/>
       <div class="notes">
-        <FormItem filter-name="备注" placeholder="请在这里输入" @update:value="onUpdateNotes"/>
+        <!-- 这里可以使用 .sync-->
+        <FormItem filter-name="备注" placeholder="请在这里输入" :value="record.notes" @update:value="onUpdateNotes"/>
       </div>
-      <Tags/>
+      <Tags @update:value="record.tags = $event"/>
     </Layout>
   </div>
 </template>
@@ -35,7 +36,12 @@ export default class Ledger extends Vue{
   }
   onUpdateNotes(value: string) {this.record.notes = value}
   saveRecord(){
+    if(!this.record.tags || this.record.tags.length === 0){
+      return window.alert('请选择至少标签')
+    }
     this.$store.commit('createRecord',this.record)
+    window.alert('已保存')
+    this.record.notes = ''
   }
 }
 </script>
