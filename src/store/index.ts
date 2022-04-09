@@ -8,6 +8,7 @@ Vue.use(Vuex) // 把 store 绑定 Vue.prototype.$store = store
 
 const store =  new Vuex.Store({
   state: {
+    createTagError: null,
     recordList: [],
     tagList: [],
     currentTag: undefined, // ① 第一步先定义当前 currentTag 默认 undefined
@@ -22,7 +23,7 @@ const store =  new Vuex.Store({
       if(idList.indexOf(id) >=0){
         const names = state.tagList.map(item => item.name)
         if(names.indexOf(name) >= 0){
-         window.alert('标签名重复了')
+          window.alert('标签名重复了')
         }else{
           const tag = state.tagList.filter(item => item.id === id)[0];
           tag.name = name;
@@ -52,9 +53,9 @@ const store =  new Vuex.Store({
     fetchRecords(state){
       state.recordList = JSON.parse(window.localStorage.getItem('recordList') || '[]') as RecordItem[];
     },
-    createRecord(state, record){
+    createRecord(state, record: RecordItem){
       // 深拷贝
-      const record2: RecordItem = clone(record)
+      const record2 = clone(record)
       // 生成日期
       record2.createdAt = new Date().toISOString()
       // 不使用深拷贝 | 这里是引用的地址 每次数据更新了都会覆盖之前的
@@ -67,18 +68,25 @@ const store =  new Vuex.Store({
     },
     fetchTags(state){
       state.tagList = JSON.parse(window.localStorage.getItem('tagList') || '[]');
+      if(!state.tagList || state.tagList.length === 0) {
+        store.commit('createTag', '衣')
+        store.commit('createTag', '食')
+        store.commit('createTag', '住')
+        store.commit('createTag', '行')
+      }
     },
     createTag(state, name: string){
+      state.createTagError = null
       // 创建一个 tag 如果重复
       const names = state.tagList.map(item =>item.name)
       if(names.indexOf(name) >= 0 ){
-        window.alert('标签名重复了')
+        state.createTagError = new Error('tag name duplicated');
+        return
       }
       // 如果没有重复 创建一个 id 然后把 id 和 name 放到 tagList 中保存
       const id = createId().toString()
       state.tagList.push({id, name:name}) //{id: id, name: name}
       store.commit('saveTags')
-      window.alert('添加成功')
     },
     saveTags(state){
       return window.localStorage.setItem('tagList', JSON.stringify(state.tagList));
