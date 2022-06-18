@@ -1,6 +1,7 @@
 <template>
   <Layout>
     <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
+    <br/>
     <ol v-if="groupedList.length > 0">
       <!-- group 一组 === array-->
       <!-- 数组没有 key 只能用 index 代替 key-->
@@ -20,6 +21,7 @@
     <div v-else class="noResult">
       这里空空如也，快来记一笔吧 ~
     </div>
+    <v-chart class="chart" :option="x" />
   </Layout>
 </template>
 
@@ -32,14 +34,62 @@ import recordTypeList from '@/constant/recordTypeList';
 import dayjs from 'dayjs'
 import clone from '@/lib/clone';
 
+import { use } from "echarts/core";
+import { CanvasRenderer } from "echarts/renderers";
+import { PieChart } from "echarts/charts";
+import {
+  TitleComponent,
+  TooltipComponent,
+  LegendComponent
+} from "echarts/components";
+import VChart from "vue-echarts";
+
+use([
+  CanvasRenderer,
+  PieChart,
+  TitleComponent,
+  TooltipComponent,
+  LegendComponent
+]);
+
 @Component({
-  components: {Tabs}
+  components: {Tabs, VChart}
 })
 export default class Statistics extends Vue{
   type = '-';
   recordTypeList = recordTypeList;
   tagString(tags: Tag[]) {
     return tags.length === 0 ? '无' : tags.map(t => t.name).join('，');
+  }
+  // 根据 vue-echarts 引入官网例子
+  // 函数中返回 option 可以在 Echarts 官网找例子贴代码
+  get x(){
+    return {
+      title: {
+        left: 'center'
+      },
+      tooltip: {
+        trigger: 'item'
+      },
+      legend: {
+        orient: 'horizontal',
+        left: 'center'
+      },
+      series: [
+        {
+          name: 'Access From',
+          type: 'pie',
+          radius: '50%',
+          data: [
+            { value: 1048, name: 'Search Engine' },
+            { value: 735, name: 'Direct' },
+            { value: 580, name: 'Email' },
+            { value: 484, name: 'Union Ads' },
+            { value: 300, name: 'Video Ads' }
+          ]
+        }
+      ]
+    }
   }
   get recordList(){
     return (this.$store.state as RootState).recordList
@@ -74,7 +124,7 @@ export default class Statistics extends Vue{
     //console.log(result); // 查看排序后的分组
     return result;
   }
-  beforeCreate(){// 这里要使用 before 不然 hashTable 会出现空数组的问题
+  beforeCreated(){// 这里要使用 before 不然 hashTable 会出现空数组的问题
     this.$store.commit('fetchRecords')
   }
   beautify(string: string){
@@ -96,6 +146,9 @@ export default class Statistics extends Vue{
 </script>
 
 <style lang="scss" scoped>
+.chart {
+  height: 400px;
+}
 .noResult{
   padding: 16px;
   text-align: center;
