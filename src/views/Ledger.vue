@@ -4,9 +4,16 @@
       <!-- 定义 submit 事件，点击 OK 就保存 -->
       <NumberPad :value.sync="record.amount" @submit="saveRecord"/>
       <Tabs :data-source="recordTypeList" :value.sync="record.type"/>
+      <div class="createdAt">
+        <FormItem filter-name="日期"
+                  type="date"
+                  placeholder="请选择日期"
+                  :value.sync="record.createdAt"/>
+      </div>
       <div class="notes">
-        <!-- 这里可以使用 .sync-->
-        <FormItem filter-name="备注" placeholder="请在这里输入" :value="record.notes" @update:value="onUpdateNotes"/>
+        <FormItem filter-name="备注"
+                  placeholder="请在这里输入"
+                  :value.sync="record.notes"/>
       </div>
       <Tags @update:value="record.tags = $event"/>
     </Layout>
@@ -29,12 +36,11 @@ export default class Ledger extends Vue{
   }
   recordTypeList = recordTypeList
   record: RecordItem = {
-    tags:[], notes:'', type:'-', amount: 0
+    tags:[], notes:'', type:'-', amount: 0, createdAt: new Date().toISOString()
   }
   created(){
     this.$store.commit('fetchRecords')
   }
-  onUpdateNotes(value: string) {this.record.notes = value}
   saveRecord(){
     if(!this.record.tags || this.record.tags.length === 0){
       return window.alert('请选择至少标签')
@@ -50,8 +56,5 @@ export default class Ledger extends Vue{
   ::v-deep .layout-content {
   display: flex;
   flex-direction: column-reverse;
-}
-.notes{
-  padding: 12px 0;
 }
 </style>

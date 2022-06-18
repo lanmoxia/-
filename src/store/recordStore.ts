@@ -15,8 +15,8 @@ const recordStore =  {
     createRecord(record: RecordItem){
         // 深拷贝
         const record2: RecordItem = clone(record)
-        // 生成日期
-        record2.createdAt = new Date().toISOString()
+        // 生成日期 如果没有就添加时间 这样不会覆盖掉
+        record2.createdAt = record2.createdAt || new Date().toISOString()
         // 不使用深拷贝 | 这里是引用的地址 每次数据更新了都会覆盖之前的
         //this.recordList && this.recordList.push(record2)
         this.recordList?.push(record2) // 可选链语法
