@@ -1,27 +1,27 @@
 <template>
   <Layout>
     <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
-    <br/>
-    <ol v-if="groupedList.length > 0">
-      <!-- group 一组 === array-->
-      <!-- 数组没有 key 只能用 index 代替 key-->
-      <li v-for="(group,index) in groupedList" :key="index">
-        <h3 class="title">{{beautify(group.title)}} <span>￥{{group.total}}</span></h3>
-        <ol>
-          <li v-for="item in group.items" :key="item.id"
-              class="record"
-          >
-            <span>{{tagString(item.tags)}}</span>
-            <span class="notes">{{item.notes}}</span>
-            <span>￥{{item.amount}} </span>
-          </li>
-        </ol>
-      </li>
-    </ol>
+    <template v-if="groupedList.length > 0">
+      <Chart :options="echartsOptions"/>
+      <ol>
+        <!-- group 一组 === array-->
+        <!-- 数组没有 key 只能用 index 代替 key-->
+        <li v-for="(group,index) in groupedList" :key="index">
+          <h3 class="title">{{beautify(group.title)}} <span>￥{{group.total}}</span></h3>
+          <ol class="recordWrapper">
+            <li v-for="item in group.items" :key="item.id"
+                class="record">
+              <span>{{tagString(item.tags)}}</span>
+              <span class="notes">{{item.notes}}</span>
+              <span>￥{{item.amount}} </span>
+            </li>
+          </ol>
+        </li>
+      </ol>
+    </template>
     <div v-else class="noResult">
       这里空空如也，快来记一笔吧 ~
     </div>
-    <v-chart class="chart" :option="x" />
   </Layout>
 </template>
 
@@ -33,27 +33,10 @@ import Tabs from '@/components/Tabs.vue';
 import recordTypeList from '@/constant/recordTypeList';
 import dayjs from 'dayjs'
 import clone from '@/lib/clone';
-
-import { use } from "echarts/core";
-import { CanvasRenderer } from "echarts/renderers";
-import { PieChart } from "echarts/charts";
-import {
-  TitleComponent,
-  TooltipComponent,
-  LegendComponent
-} from "echarts/components";
-import VChart from "vue-echarts";
-
-use([
-  CanvasRenderer,
-  PieChart,
-  TitleComponent,
-  TooltipComponent,
-  LegendComponent
-]);
+import Chart from '@/components/Chart.vue';
 
 @Component({
-  components: {Tabs, VChart}
+  components: {Tabs, Chart}
 })
 export default class Statistics extends Vue{
   type = '-';
@@ -61,10 +44,8 @@ export default class Statistics extends Vue{
   tagString(tags: Tag[]) {
     return tags.length === 0 ? '无' : tags.map(t => t.name).join('，');
   }
-  // 根据 vue-echarts 引入官网例子
-  // 函数中返回 option 可以在 Echarts 官网找例子贴代码
-  get x(){
-    return {
+  get echartsOptions(){
+    return{
       title: {
         left: 'center'
       },
