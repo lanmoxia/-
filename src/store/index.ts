@@ -57,7 +57,7 @@ const store =  new Vuex.Store({
       // 深拷贝
       const record2 = clone(record)
       // 生成日期
-      record2.createdAt = new Date().toISOString()
+      record2.createdAt = record2.createdAt || new Date().toISOString()
       // 不使用深拷贝 | 这里是引用的地址 每次数据更新了都会覆盖之前的
       //this.recordList && this.recordList.push(record2)
       state.recordList.push(record2)
