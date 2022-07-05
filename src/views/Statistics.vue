@@ -1,11 +1,10 @@
 <template>
   <Layout>
     <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
-    <template v-if="groupedList.length > 0">
-      <Chart :options="echartsOptions"/>
-      <ol>
-        <!-- group 一组 === array-->
-        <!-- 数组没有 key 只能用 index 代替 key-->
+    <div class="chart-wrapper" ref="chartWrapper">
+      <Chart class="chart" :options="echartsOptions"/>
+    </div>
+      <ol v-if="groupedList.length > 0">
         <li v-for="(group,index) in groupedList" :key="index">
           <h3 class="title">{{beautify(group.title)}} <span>￥{{group.total}}</span></h3>
           <ol class="recordWrapper">
@@ -18,13 +17,11 @@
           </ol>
         </li>
       </ol>
-    </template>
     <div v-else class="noResult">
       这里空空如也，快来记一笔吧 ~
     </div>
   </Layout>
 </template>
-
 
 <script lang="ts">
 import Vue from 'vue';
@@ -44,29 +41,42 @@ export default class Statistics extends Vue{
   tagString(tags: Tag[]) {
     return tags.length === 0 ? '无' : tags.map(t => t.name).join('，');
   }
+  mounted(){
+    (this.$refs.chartWrapper as HTMLDivElement).scrollLeft = 9999
+  }
   get echartsOptions(){
     return{
-      title: {
-        left: 'center'
+      grid:{
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 20
       },
-      tooltip: {
-        trigger: 'item'
+      xAxis: {
+        axisTick: false,
+        splitLine: false,
+        type: 'category',
+        data: [
+          '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
+          '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
+          '21', '22', '23', '24', '25', '26', '27', '28', '29', '30'
+        ]
       },
-      legend: {
-        orient: 'horizontal',
-        left: 'center'
+      yAxis: {
+        type: 'value',
+        splitLine: false,
+        axisLabel:{
+          show: false
+        }
       },
       series: [
         {
-          name: 'Access From',
-          type: 'pie',
-          radius: '50%',
+          type: 'line',
+          smooth: true,
           data: [
-            { value: 1048, name: 'Search Engine' },
-            { value: 735, name: 'Direct' },
-            { value: 580, name: 'Email' },
-            { value: 484, name: 'Union Ads' },
-            { value: 300, name: 'Video Ads' }
+            30, 50, 50, 10, 100, 40, 140, 40, 60, 30,
+            40, 35, 48, 100, 30, 60, 160, 80, 70, 40,
+            60, 30, 150, 50, 320, 200, 70, 40, 50, 20
           ]
         }
       ]
@@ -128,7 +138,13 @@ export default class Statistics extends Vue{
 
 <style lang="scss" scoped>
 .chart {
-  height: 400px;
+  width: 430%;
+  &-wrapper{
+    overflow: auto;
+    &::-webkit-scrollbar{
+      display: none;
+    }
+  }
 }
 .noResult{
   padding: 16px;
