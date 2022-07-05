@@ -46,6 +46,10 @@ export default class Statistics extends Vue{
     div.scrollLeft = div.scrollWidth
   }
   get echartsOptions(){
+    // 拿到 日期和金额
+    console.log(this.recordList.map(
+        r => ({createdAt: r.createdAt, amount: r.amount}))
+    );
     return{
       grid:{
         left: 0,
