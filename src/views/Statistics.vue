@@ -2,7 +2,7 @@
   <Layout>
     <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
     <div class="chart-wrapper" ref="chartWrapper">
-      <Chart class="chart" :options="echartsOptions"/>
+      <Chart class="chart" :options="option"/>
     </div>
       <ol v-if="groupedList.length>0">
         <li v-for="(group,index) in groupedList" :key="index">
@@ -47,7 +47,7 @@ export default class Statistics extends Vue{
     const div = (this.$refs.chartWrapper as HTMLDivElement)
     div.scrollLeft = div.scrollWidth
   }
-  get echartsOptions(){
+  get datas(){
     const today = new Date()
     const array = []
     for(let i = 0; i <= 29; i++){
@@ -60,8 +60,11 @@ export default class Statistics extends Vue{
       if(a.date === b.date){return 0}
       return a.date > b.date ? 1 : -1;
     })
-    const keys = array.map(item => item.date)
-    const values = array.map(item => item.value)
+    return array
+  }
+  get option(){
+    const keys = this.datas.map(item => item.date)
+    const values = this.datas.map(item => item.value)
     return{
       grid:{
         left: 0,
