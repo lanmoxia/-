@@ -2,7 +2,7 @@
   <Layout>
     <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
     <div class="chart-wrapper" ref="chartWrapper">
-      <Chart class="chart" :options="option"/>
+      <Chart class="chart" :options="chartOptions"/>
     </div>
       <ol v-if="groupedList.length>0">
         <li v-for="(group,index) in groupedList" :key="index">
@@ -47,24 +47,24 @@ export default class Statistics extends Vue{
     const div = (this.$refs.chartWrapper as HTMLDivElement)
     div.scrollLeft = div.scrollWidth
   }
-  get datas(){
+  get keyValueList(){
     const today = new Date()
     const array = []
     for(let i = 0; i <= 29; i++){
       const dateString = day(today).subtract(i, 'day').format('YYYY-MM-DD')
       const found = _.find(this.recordList, {createdAt : dateString})
-      array.push({date: dateString, value: found ? found.amount : 0})
+      array.push({key: dateString, value: found ? found.amount : 0})
     }
     // 顺序反了 排下序
     array.sort((a,b) => {
-      if(a.date === b.date){return 0}
+      if(a.key === b.key){return 0}
       return a.date > b.date ? 1 : -1;
     })
     return array
   }
-  get option(){
-    const keys = this.datas.map(item => item.date)
-    const values = this.datas.map(item => item.value)
+  get chartOptions(){
+    const keys = this.keyValueList.map(item => item.key)
+    const values = this.keyValueList.map(item => item.value)
     return{
       grid:{
         left: 0,
