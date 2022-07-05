@@ -31,6 +31,8 @@ import recordTypeList from '@/constant/recordTypeList';
 import dayjs from 'dayjs'
 import clone from '@/lib/clone';
 import Chart from '@/components/Chart.vue';
+import _ from 'lodash'
+import day from 'dayjs'
 
 @Component({
   components: {Tabs, Chart}
@@ -46,10 +48,10 @@ export default class Statistics extends Vue{
     div.scrollLeft = div.scrollWidth
   }
   get echartsOptions(){
-    // 拿到 日期和金额
-    console.log(this.recordList.map(
-        r => ({createdAt: r.createdAt, amount: r.amount}))
-    );
+    // 使用 lodash 遍历
+    // 在 r 对象中找到 createdAt 和 amount
+    console.log(this.recordList.map(r => _.pick(r, ['createdAt', 'amount'])));
+
     return{
       grid:{
         left: 0,
