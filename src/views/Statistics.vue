@@ -52,12 +52,16 @@ export default class Statistics extends Vue{
     const array = []
     for(let i = 0; i <= 29; i++){
       const dateString = day(today).subtract(i, 'day').format('YYYY-MM-DD')
-      array.push({
-        date: dateString,
-        value: _.find(this.recordList, {createdAt : dateString})?.amount
-      })
+      const found = _.find(this.recordList, {createdAt : dateString})
+      array.push({date: dateString, value: found ? found.amount : 0})
     }
-    console.log(array);
+    // 顺序反了 排下序
+    array.sort((a,b) => {
+      if(a.date === b.date){return 0}
+      return a.date > b.date ? 1 : -1;
+    })
+    const keys = array.map(item => item.date)
+    const values = array.map(item => item.value)
     return{
       grid:{
         left: 0,
@@ -70,11 +74,7 @@ export default class Statistics extends Vue{
         axisTick: false,
         splitLine: false,
         type: 'category',
-        data: [
-          '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
-          '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
-          '21', '22', '23', '24', '25', '26', '27', '28', '29', '30'
-        ],
+        data: keys,
         axisLine: {
           lineStyle:{
             color: '#666'
@@ -95,11 +95,7 @@ export default class Statistics extends Vue{
           symbol: 'circle',
           symbolSize: 12,
           itemStyle: {color: '#666'},
-          data: [
-            60, 30, 150, 50, 320, 200, 70, 40, 50, 20,
-            40, 35, 48, 100, 30, 60, 160, 80, 70, 40,
-            30, 50, 50, 10, 100, 40, 10, 40, 60, 30
-          ]
+          data: values
         }
       ]
     }
