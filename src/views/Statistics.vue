@@ -4,7 +4,7 @@
     <div class="chart-wrapper" ref="chartWrapper">
       <Chart class="chart" :options="echartsOptions"/>
     </div>
-      <ol v-if="groupedList.length > 0">
+      <ol v-if="groupedList.length>0">
         <li v-for="(group,index) in groupedList" :key="index">
           <h3 class="title">{{beautify(group.title)}} <span>￥{{group.total}}</span></h3>
           <ol class="recordWrapper">
@@ -48,10 +48,16 @@ export default class Statistics extends Vue{
     div.scrollLeft = div.scrollWidth
   }
   get echartsOptions(){
-    // 使用 lodash 遍历
-    // 在 r 对象中找到 createdAt 和 amount
-    console.log(this.recordList.map(r => _.pick(r, ['createdAt', 'amount'])));
-
+    const today = new Date()
+    const array = []
+    for(let i = 0; i <= 29; i++){
+      const dateString = day(today).subtract(i, 'day').format('YYYY-MM-DD')
+      // 使用 lodash 的 find
+      // 语法： find(当前对象，{当前 createdAt 这一项}) 方便后边 found.amount
+      const found = _.find(this.recordList, {createdAt : dateString})
+      array.push({date: dateString, value: found ? found.amount : 0})
+    }
+    console.log(array);
     return{
       grid:{
         left: 0,
