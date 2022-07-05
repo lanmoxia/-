@@ -55,20 +55,15 @@ export default class Statistics extends Vue{
       const found = _.find(this.groupedList, {title : dateString})
       array.push({key: dateString, value: found ? found.total : 0})
     }
-    // 支出收入切换数据正确
-    // console.log(array);
-    // console.log(array);
-    // 顺序反了 排下序
     array.sort((a,b) => {
       if(a.key === b.key){return 0}
-      return a.date > b.date ? 1 : -1;
+      return a.key > b.key ? 1 : -1;
     })
     return array
   }
   get chartOptions(){
     const keys = this.keyValueList.map(item => item.key)
     const values = this.keyValueList.map(item => item.value)
-    console.log(values);
     return{
       grid:{
         left: 0,
