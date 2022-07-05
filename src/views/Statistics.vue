@@ -47,10 +47,11 @@ export default class Statistics extends Vue{
   get echartsOptions(){
     return{
       grid:{
-        top: 0,
-        bottom: 0,
         left: 0,
-        right: 20
+        right: 0
+      },
+      tooltip:{
+        show: true
       },
       xAxis: {
         axisTick: false,
@@ -60,7 +61,12 @@ export default class Statistics extends Vue{
           '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
           '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
           '21', '22', '23', '24', '25', '26', '27', '28', '29', '30'
-        ]
+        ],
+        axisLine: {
+          lineStyle:{
+            color: '#666'
+          }
+        }
       },
       yAxis: {
         type: 'value',
@@ -73,10 +79,13 @@ export default class Statistics extends Vue{
         {
           type: 'line',
           smooth: true,
+          symbol: 'circle',
+          symbolSize: 12,
+          itemStyle: {color: '#666'},
           data: [
-            30, 50, 50, 10, 100, 40, 140, 40, 60, 30,
+            60, 30, 150, 50, 320, 200, 70, 40, 50, 20,
             40, 35, 48, 100, 30, 60, 160, 80, 70, 40,
-            60, 30, 150, 50, 320, 200, 70, 40, 50, 20
+            30, 50, 50, 10, 100, 40, 10, 40, 60, 30
           ]
         }
       ]
