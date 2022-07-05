@@ -9,18 +9,18 @@ import {EChartsOption} from 'echarts';
   export default class Chart extends Vue{
     @Prop() options?: EChartsOption
     chart?: Echarts
-    // mounted 只在挂载时执行 后边切换支出收入不会更新
-    // 这里使用 watch 监听更新
     mounted(){
+      console.log('mounted');
       if(this.options === undefined){
         return console.error('options 为空')
       }
       this.chart = echarts.init(this.$refs.wrapper as HTMLDivElement)
-      this.chart.setOption(this.options)
     }
-
-    @Watch('options')
+    // 使用 immediate 第一次也渲染 可代替 mounted
+    // 由于是先传参在执行 mounted 这里 this.chart! 是 undefined 所以不能使用 immediate
+    @Watch('options', {immediate: true})
     onOptionsChange(newValue: EChartOption){
+      console.log('options 变化了');
       this.chart!.setOption(newValue)
     }
   }
