@@ -52,10 +52,10 @@ export default class Statistics extends Vue{
     const array = []
     for(let i = 0; i <= 29; i++){
       const dateString = day(today).subtract(i, 'day').format('YYYY-MM-DD')
-      // 使用 lodash 的 find
-      // 语法： find(当前对象，{当前 createdAt 这一项}) 方便后边 found.amount
-      const found = _.find(this.recordList, {createdAt : dateString})
-      array.push({date: dateString, value: found ? found.amount : 0})
+      array.push({
+        date: dateString,
+        value: _.find(this.recordList, {createdAt : dateString})?.amount
+      })
     }
     console.log(array);
     return{
