@@ -140,7 +140,7 @@ export default class Statistics extends Vue{
     //console.log(result); // 查看排序后的分组
     return result;
   }
-  beforeCreated(){// 这里要使用 before 不然 hashTable 会出现空数组的问题
+  created(){// 这里要使用 before 不然 hashTable 会出现空数组的问题
     this.$store.commit('fetchRecords')
   }
   beautify(string: string){
