@@ -37,13 +37,16 @@ export default class Types extends Vue{
     if(this.output === '0'){
       if('0123456789'.indexOf(input) >=0){
         this.output = input;
-      }else{
-        this.output += input;
-      }
+      }else{this.output += input;}
       return
     }
     // 输出为 .
-    if(this.output.indexOf('.') >= 0 && input === '.'){return}
+    if(this.output.indexOf('.') >= 0){
+      if( input === '.'){return}
+      const decimal = /^\d+(?:\.\d?)?/
+      if(this.output.replace(decimal,'')){return}
+      this.output = this.output.match(decimal)!.toString()
+    }
     // 其他情况
     this.output += input;
   }
