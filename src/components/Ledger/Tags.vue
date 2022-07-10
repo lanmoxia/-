@@ -39,7 +39,7 @@ export default class Tags extends mixins(TagHelper){
       this.selectedTags.splice(index,1)
       this.selectedTags.push(tag)
     }
-    this.$emit('update:value',this.selectedTags)
+    this.$emit('update:value', this.selectedTags)
   }
 }
 </script>
