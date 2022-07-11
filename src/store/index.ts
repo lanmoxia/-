@@ -8,10 +8,9 @@ Vue.use(Vuex) // 把 store 绑定 Vue.prototype.$store = store
 
 const store =  new Vuex.Store({
   state: {
-    createTagError: null,
     recordList: [],
     tagList: [],
-    currentTag: undefined, // ① 第一步先定义当前 currentTag 默认 undefined
+    currentTag: undefined,
   } as RootState,
   mutations: {
     fetchRecords(state){
@@ -20,29 +19,26 @@ const store =  new Vuex.Store({
     createRecord(state, record: RecordItem){
       // 深拷贝
       const record2 = clone(record)
-      // 生成日期
       record2.createdAt = record2.createdAt || new Date().toISOString()
-      // 不使用深拷贝 | 这里是引用的地址 每次数据更新了都会覆盖之前的
-      //this.recordList && this.recordList.push(record2)
       state.recordList.push(record2)
       store.commit('saveRecords')
+      window.alert('已保存')
     },
     saveRecords(state){
       window.localStorage.setItem('recordList', JSON.stringify(state.recordList))
     },
 
     createTag(state, name: string){
-      state.createTagError = null
       // 创建一个 tag 如果重复
       const names = state.tagList.map(item =>item.name)
       if(names.indexOf(name) >= 0 ){
-        state.createTagError = new Error('tag name duplicated');
-        return
+        window.alert('标签名重复了')
       }
       // 如果没有重复 创建一个 id 然后把 id 和 name 放到 tagList 中保存
       const id = createId().toString()
       state.tagList.push({id, name:name}) //{id: id, name: name}
       store.commit('saveTags')
+      window.alert('添加成功')
     },
     removeTag(state,id: string){
       let index = -1;

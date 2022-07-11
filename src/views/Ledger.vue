@@ -39,8 +39,6 @@ export default class Ledger extends Vue{
     tags:[], notes:'', type:'-', amount: 0, createdAt: new Date().toISOString()
   }
   created(){
-    console.log('父组件 created 钩子打印')
-    console.log(this.record.tags)
     this.$store.commit('fetchRecords')
   }
   saveRecord(tag: Tag){
@@ -49,7 +47,6 @@ export default class Ledger extends Vue{
     }
     if(this.record.amount === 0){return window.alert('请填写金额')}
     this.$store.commit('createRecord', this.record)
-    window.alert('已保存')
     const index = this.record.tags.indexOf(tag);
     this.record.tags.splice(index,1)
     this.record.amount = 0
